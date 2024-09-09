@@ -1,4 +1,4 @@
-# Get started
+# Setup
 
 Virtual environment
 
@@ -24,10 +24,18 @@ Install package and deps
 pip install -e .[dev]
 ```
 
+## Use
+
 Run tests
 
 ```
 make test
+```
+
+Format code
+
+```
+make format
 ```
 
 Build
