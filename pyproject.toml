@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "playground"
+version = "0.0.1"
+requires-python = ">=3.12"
+dependencies = [
+    # runtime-deps
+]
+
+[project.optional-dependencies]
+dev = ["build", "tox"]
+
+[tool.ruff]
+line-length = 80
+src = ["src"]
+target-version = "py312"
+
+[tool.mypy]
+exclude = ["build/", "dist/"]
+warn_unused_ignores = true
