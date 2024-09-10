@@ -1,6 +1,6 @@
 import compute
 
-from hypothesis import example, given, strategies as st
+from hypothesis import given, strategies as st
 
 
 @given(st.integers(0, 23), st.integers(0, 100))
