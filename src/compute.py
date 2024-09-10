@@ -11,7 +11,11 @@ def random_list(
 
 
 def is_sorted(items: Sequence[int]) -> bool:
-    return items == sorted(items)
+    for i in range(len(items) - 1):
+        if items[i] > items[i + 1]:
+            return False
+
+    return True
 
 
 def shuffled(items: Sequence[int], seed=None) -> list[int]:
@@ -35,4 +39,16 @@ def insertion_sort(items: Sequence[int]) -> list[int]:
 
 
 def bubble_sort(items: Sequence[int]) -> list[int]:
-    pass
+    for j in range(len(items) - 1, 0, -1):
+        for i in range(j):
+            if items[i] > items[i + 1]:
+                items[i], items[i + 1] = items[i + 1], items[i]
+
+
+def selection_sort(items: Sequence[int]) -> list[int]:
+    for j in range(0, len(items)):
+        min = j
+        for i in range(j + 1, len(items)):
+            if items[i] < items[min]:
+                min = i
+        items[j], items[min] = items[min], items[j]
