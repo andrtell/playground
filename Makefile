@@ -1,4 +1,4 @@
-.PHONY: test lint build clean
+.PHONY: test lint build pip format init clean
 
 test:
 	python -m pytest
