@@ -1,17 +1,25 @@
 .PHONY: test lint build clean
 
 test:
-	tox run -e test
+	python -m pytest
 
-lint: src
-	tox run -e lint
+lint:
+	python -m ruff format . --check
+	python -m ruff check .
+	python -m mypy .
+
+init:
+	python -m venv .venv
+
+pip:
+	python -m pip install -e .[dev]
 
 build:
 	python -m build
 	rm -rf src/*egg-info
 
 format:
-	tox run -e format
+	python -m ruff format
 
 clean:
 	rm -rf dist .tox
