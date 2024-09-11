@@ -130,3 +130,32 @@ def heap_sort_bubble_down(items: list[int], n: int, root: int):
         root = max
 
     return None
+
+def quick_sort(items: list[int]):
+    quick_sort_low_high(items, 0, len(items))
+
+def quick_sort_low_high(items: list[int], low: int, high: int):
+    if high - low < 2:
+        return None
+
+    mid = quick_sort_partition(items, low, high)
+
+    quick_sort_low_high(items, low, mid)
+    quick_sort_low_high(items, mid + 1, high)
+
+    return None
+
+def quick_sort_partition(items: list[int], low, high):
+    pivot = items[high - 1]
+
+    i = low
+
+    for j in range(low, high - 1):
+        if items[j] <= pivot:
+            items[i], items[j] = items[j], items[i]
+            i += 1
+
+    items[i], items[high - 1] = items[high - 1], items[i]
+
+    return i
+
