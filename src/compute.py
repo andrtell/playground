@@ -58,3 +58,38 @@ def selection_sort(items: list[int]) -> None:
         items[j], items[min] = items[min], items[j]
 
     return None
+
+
+def merge_sort(items: list[int]) -> None:
+    merge_sort_lh(items, 0, len(items), items[:])
+
+    return None
+
+
+def merge_sort_lh(items: list[int], low, high, copy: list[int]):
+    if high - low < 2:
+        return None
+
+    mid = low + (high - low) // 2
+
+    merge_sort_lh(copy, low, mid, items)
+    merge_sort_lh(copy, mid, high, items)
+
+    merge_lists(items, low, mid, high, copy)
+
+    return None
+
+
+def merge_lists(items: list[int], low, mid, high, copy: list[int]):
+    i = low
+    j = mid
+
+    for k in range(low, high):
+        if i < mid and (j >= high or copy[i] <= copy[j]):
+            items[k] = copy[i]
+            i += 1
+        else:
+            items[k] = copy[j]
+            j += 1
+
+    return None

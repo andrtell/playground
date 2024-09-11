@@ -57,3 +57,12 @@ def test_selection_sort(count):
     compute.selection_sort(ord)
     assert compute.is_permutation(src, ord)
     assert compute.is_sorted(ord)
+
+
+@given(st.integers(0, 23))
+def test_merge_sort(count):
+    src = compute.random_list(count)
+    ord = src[:]
+    compute.merge_sort(ord)
+    assert compute.is_permutation(src, ord)
+    assert compute.is_sorted(ord)
