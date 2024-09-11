@@ -2,6 +2,7 @@ import compute
 
 from hypothesis import given, strategies as st
 
+
 @given(st.integers(0, 23), st.integers(0, 100))
 def test_random_list(count, seed):
     a = compute.random_list(count, seed=seed)
@@ -75,10 +76,18 @@ def test_heap_sort(count):
     assert compute.is_permutation(src, ord)
     assert compute.is_sorted(ord)
 
+
 @given(st.integers(0, 23))
 def test_quick_sort(count):
     src = compute.random_list(count)
     ord = src[:]
     compute.quick_sort(ord)
+    assert compute.is_permutation(src, ord)
+    assert compute.is_sorted(ord)
+
+@given(st.integers(0, 23), st.integers(0, 100))
+def test_counting_sort(count, k):
+    src = compute.random_list(count, max=k)
+    ord = compute.counting_sort(src, k)
     assert compute.is_permutation(src, ord)
     assert compute.is_sorted(ord)

@@ -66,7 +66,9 @@ def merge_sort(items: list[int]) -> None:
     return None
 
 
-def merge_sort_low_high(items: list[int], low, high, copy: list[int]):
+def merge_sort_low_high(
+    items: list[int], low: int, high: int, copy: list[int]
+) -> None:
     if high - low < 2:
         return None
 
@@ -80,7 +82,9 @@ def merge_sort_low_high(items: list[int], low, high, copy: list[int]):
     return None
 
 
-def merge_sort_merge(items: list[int], low, mid, high, copy: list[int]):
+def merge_sort_merge(
+    items: list[int], low: int, mid: int, high: int, copy: list[int]
+) -> None:
     i = low
     j = mid
 
@@ -95,7 +99,7 @@ def merge_sort_merge(items: list[int], low, mid, high, copy: list[int]):
     return None
 
 
-def heap_sort(items: list[int]):
+def heap_sort(items: list[int]) -> None:
     n = len(items)
 
     for i in range(n // 2, -1, -1):
@@ -108,7 +112,7 @@ def heap_sort(items: list[int]):
     return None
 
 
-def heap_sort_bubble_down(items: list[int], n: int, root: int):
+def heap_sort_bubble_down(items: list[int], n: int, root: int) -> None:
     while True:
         max = root
 
@@ -131,10 +135,12 @@ def heap_sort_bubble_down(items: list[int], n: int, root: int):
 
     return None
 
-def quick_sort(items: list[int]):
-    quick_sort_low_high(items, 0, len(items))
 
-def quick_sort_low_high(items: list[int], low: int, high: int):
+def quick_sort(items: list[int]) -> None:
+    return quick_sort_low_high(items, 0, len(items))
+
+
+def quick_sort_low_high(items: list[int], low: int, high: int) -> None:
     if high - low < 2:
         return None
 
@@ -145,7 +151,8 @@ def quick_sort_low_high(items: list[int], low: int, high: int):
 
     return None
 
-def quick_sort_partition(items: list[int], low, high):
+
+def quick_sort_partition(items: list[int], low: int, high: int) -> int:
     pivot = items[high - 1]
 
     i = low
@@ -159,3 +166,20 @@ def quick_sort_partition(items: list[int], low, high):
 
     return i
 
+
+def counting_sort(items: list[int], k: int) -> list[int]:
+    count = [0] * (k + 1)
+
+    for v in items:
+        count[v] += 1
+
+    for j in range(1, k + 1):
+        count[j] = count[j - 1] + count[j]
+
+    ans = [0] * len(items)
+
+    for v in items:
+        ans[count[v] - 1] = v
+        count[v] -= 1
+
+    return ans
