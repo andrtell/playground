@@ -61,26 +61,26 @@ def selection_sort(items: list[int]) -> None:
 
 
 def merge_sort(items: list[int]) -> None:
-    merge_sort_lh(items, 0, len(items), items[:])
+    merge_sort_low_high(items, 0, len(items), items[:])
 
     return None
 
 
-def merge_sort_lh(items: list[int], low, high, copy: list[int]):
+def merge_sort_low_high(items: list[int], low, high, copy: list[int]):
     if high - low < 2:
         return None
 
     mid = low + (high - low) // 2
 
-    merge_sort_lh(copy, low, mid, items)
-    merge_sort_lh(copy, mid, high, items)
+    merge_sort_low_high(copy, low, mid, items)
+    merge_sort_low_high(copy, mid, high, items)
 
-    merge_lists(items, low, mid, high, copy)
+    merge_sort_merge(items, low, mid, high, copy)
 
     return None
 
 
-def merge_lists(items: list[int], low, mid, high, copy: list[int]):
+def merge_sort_merge(items: list[int], low, mid, high, copy: list[int]):
     i = low
     j = mid
 
@@ -91,5 +91,42 @@ def merge_lists(items: list[int], low, mid, high, copy: list[int]):
         else:
             items[k] = copy[j]
             j += 1
+
+    return None
+
+
+def heap_sort(items: list[int]):
+    n = len(items)
+
+    for i in range(n // 2, -1, -1):
+        heap_sort_bubble_down(items, n, i)
+
+    for j in range(n - 1, 0, -1):
+        items[j], items[0] = items[0], items[j]
+        heap_sort_bubble_down(items, j, 0)
+
+    return None
+
+
+def heap_sort_bubble_down(items: list[int], n: int, root: int):
+    while True:
+        max = root
+
+        left = 2 * root
+
+        if left < n and items[left] > items[max]:
+            max = left
+
+        right = left + 1
+
+        if right < n and items[right] > items[max]:
+            max = right
+
+        if max == root:
+            break
+
+        items[root], items[max] = items[max], items[root]
+
+        root = max
 
     return None
