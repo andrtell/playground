@@ -62,7 +62,7 @@ class BSTree:
                     child.parent = None
                 self.root = child
 
-    def search(self, data):
+    def find(self, data):
         if node := find.lookup(self.root, data):
             return node.data
 

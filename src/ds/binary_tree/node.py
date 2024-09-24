@@ -1,9 +1,9 @@
 class Node:
     def __init__(self, data):
         self.data = data
-        self.parent: Node | None = None
-        self.left: Node | None = None
-        self.right: Node | None = None
+        self.parent = None
+        self.left = None
+        self.right = None
 
     def __repr__(self):
         s = []
