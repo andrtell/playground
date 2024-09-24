@@ -1,7 +1,7 @@
 from ds.binary_tree.node import Node
 
 
-class BST:
+class BSTree:
     def __init__(self, root=None):
         self.root = root
 
@@ -34,29 +34,31 @@ class BST:
         else:
             self.root = child
 
+        return child
+
     def delete(self, data):
         for node in Node.find(self.root, data):
-            delete_me = node
+            rem = node
 
             if node.degree() == 2:
-                for succ in Node.successor(node):
-                    delete_me = succ
+                for succ in Node.next(node):
+                    rem = succ
 
-            parent = delete_me.parent
+            parent = rem.parent
 
-            child = delete_me.first_child()
+            child = rem.first_child()
 
             if parent:
-                if parent.left is delete_me:
+                if parent.left is rem:
                     parent.set_left(child)
                 else:
                     parent.set_right(child)
             else:
                 self.root = child
 
-            node.data = delete_me.data
+            node.data = rem.data
 
-            return delete_me
+            return rem
 
     def search(self, data):
         for node in Node.find(self.root, data):

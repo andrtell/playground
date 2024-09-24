@@ -65,8 +65,50 @@ class Node:
 
         return self.right
 
+    def balance_factor(self):
+        return Node.height(self.right) - Node.height(self.left)
+
     @classmethod
-    def successor(cls, node):
+    def rotate_left(cls, root):
+        right_child = root.right
+        if right_child:
+            root.set_right(right_child.left)
+            right_child.set_left(root)
+            return right_child
+        else:
+            raise Exception("Can't rotate left if no right child")
+
+    @classmethod
+    def rotate_right(cls, root):
+        left_child = root.left
+        if left_child:
+            root.set_left(left_child.right)
+            left_child.set_right(root)
+            return left_child
+        else:
+            raise Exception("Can't rotate right if no left child")
+
+    @classmethod
+    def height(cls, root):
+        if not root:
+            return 0
+        items = 1
+        level = 1
+        que = collections.deque([root])
+        while items > 0:
+            while items > 0:
+                items -= 1
+                node = que.popleft()
+                if node.left:
+                    que.append(node.left)
+                if node.right:
+                    que.append(node.right)
+            items = len(que)
+            level += 1
+        return level
+
+    @classmethod
+    def next(cls, node):
         if node and node.right:
             yield from cls.min_leaf(node.right)
         else:
@@ -77,7 +119,7 @@ class Node:
                 yield node.parent
 
     @classmethod
-    def predecessor(cls, node):
+    def prev(cls, node):
         if node and node.left:
             yield from cls.max_leaf(node.left)
         else:

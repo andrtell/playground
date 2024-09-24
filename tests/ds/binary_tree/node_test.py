@@ -1,6 +1,56 @@
 from ds.binary_tree.node import Node
 
 
+def test_rotate_left():
+    cll = Node(-3)
+    clr = Node(-1)
+    cl = Node(-2, left=cll, right=clr)
+    crl = Node(1)
+    crr = Node(3)
+    cr = Node(2, left=crl, right=crr)
+    pp = Node(0, left=cl, right=cr)
+    rot = Node.rotate_left(pp)
+    assert rot is cr
+    assert rot.left is pp
+    assert pp.left is cl
+    assert pp.right is crl
+    assert cl.left is cll
+    assert cl.right is clr
+    assert rot.right is crr
+
+
+def test_rotate_right():
+    cll = Node(-3)
+    clr = Node(-1)
+    cl = Node(-2, left=cll, right=clr)
+    crl = Node(1)
+    crr = Node(3)
+    cr = Node(2, left=crl, right=crr)
+    pp = Node(0, left=cl, right=cr)
+    rot = Node.rotate_right(pp)
+    assert rot is cl
+    assert rot.right is pp
+    assert pp.right is cr
+    assert pp.left is clr
+    assert cr.left is crl
+    assert cr.right is crr
+    assert rot.left is cll
+
+
+def test_next_prev_1():
+    cl = Node(-1)
+    cr = Node(1)
+    pp = Node(0)
+    pp.set_left(cl)
+    pp.set_right(cr)
+    assert cr is next(Node.next(pp))
+    assert cl is next(Node.prev(pp))
+    assert pp is next(Node.prev(next(Node.next(pp))))
+    assert pp is next(Node.next(next(Node.prev(pp))))
+    assert cr is next(Node.next(next(Node.next(cl))))
+    assert cl is next(Node.prev(next(Node.prev(cr))))
+
+
 def test_isolated_node():
     node = Node(None)
     assert node.is_leaf()
