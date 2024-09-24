@@ -1,4 +1,4 @@
-from ds.binary_tree.node import Node
+from ds.binary_tree.bst import Node
 
 
 def test_rotate_left():
@@ -9,14 +9,14 @@ def test_rotate_left():
     crr = Node(3)
     cr = Node(2, left=crl, right=crr)
     pp = Node(0, left=cl, right=cr)
-    rot = Node.rotate_left(pp)
-    assert rot is cr
-    assert rot.left is pp
+    Node.rotate_left(pp)
+    root = cr
+    assert root.left is pp
     assert pp.left is cl
     assert pp.right is crl
     assert cl.left is cll
     assert cl.right is clr
-    assert rot.right is crr
+    assert root.right is crr
 
 
 def test_rotate_right():
@@ -27,14 +27,14 @@ def test_rotate_right():
     crr = Node(3)
     cr = Node(2, left=crl, right=crr)
     pp = Node(0, left=cl, right=cr)
-    rot = Node.rotate_right(pp)
-    assert rot is cl
-    assert rot.right is pp
+    Node.rotate_right(pp)
+    root = cl
+    assert root.right is pp
     assert pp.right is cr
     assert pp.left is clr
     assert cr.left is crl
     assert cr.right is crr
-    assert rot.left is cll
+    assert root.left is cll
 
 
 def test_next_prev_1():
