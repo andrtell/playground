@@ -15,37 +15,37 @@ class BSTree:
         return self.__repr__()
 
     def insert(self, data):
-        child = Node(data)
+        child = BSNode(data)
         if self.root:
-            Node.insert(self.root, child)
+            BSNode.insert(self.root, child)
         else:
             self.root = child
 
     def delete(self, data):
-        for node in Node.find(self.root, data):
-            self.root = Node.delete(self.root, node)
+        for node in BSNode.find(self.root, data):
+            self.root = BSNode.delete(self.root, node)
 
     def search(self, data):
-        for node in Node.find(self.root, data):
+        for node in BSNode.find(self.root, data):
             return node.data
 
     def min(self):
-        for node in Node.min_leaf(self.root):
+        for node in BSNode.min_leaf(self.root):
             return node.data
 
     def max(self):
-        for node in Node.max_leaf(self.root):
+        for node in BSNode.max_leaf(self.root):
             return node.data
 
     def info(self):
-        return Node.info(self.root)
+        return BSNode.info(self.root)
 
     def __iter__(self):
-        for node in Node.in_order(self.root):
+        for node in BSNode.in_order(self.root):
             yield node.data
 
 
-class Node:
+class BSNode:
     def __init__(self, data, parent=None, left=None, right=None):
         self.data = data
         self.parent = parent
@@ -100,7 +100,7 @@ class Node:
         return self.right
 
     def balance_factor(self):
-        return Node.height(self.right) - Node.height(self.left)
+        return BSNode.height(self.right) - BSNode.height(self.left)
 
     @classmethod
     def insert(cls, root, node):
@@ -125,7 +125,7 @@ class Node:
         rem = node
 
         if node.degree() == 2:
-            for succ in Node.next(node):
+            for succ in BSNode.next(node):
                 rem = succ
 
         if node is not rem:

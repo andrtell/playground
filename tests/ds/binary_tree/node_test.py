@@ -1,15 +1,15 @@
-from ds.binary_tree.bst import Node
+from ds.binary_tree.bst import BSNode
 
 
 def test_rotate_left():
-    cll = Node(-3)
-    clr = Node(-1)
-    cl = Node(-2, left=cll, right=clr)
-    crl = Node(1)
-    crr = Node(3)
-    cr = Node(2, left=crl, right=crr)
-    pp = Node(0, left=cl, right=cr)
-    Node.rotate_left(pp)
+    cll = BSNode(-3)
+    clr = BSNode(-1)
+    cl = BSNode(-2, left=cll, right=clr)
+    crl = BSNode(1)
+    crr = BSNode(3)
+    cr = BSNode(2, left=crl, right=crr)
+    pp = BSNode(0, left=cl, right=cr)
+    BSNode.rotate_left(pp)
     root = cr
     assert root.left is pp
     assert pp.left is cl
@@ -20,14 +20,14 @@ def test_rotate_left():
 
 
 def test_rotate_right():
-    cll = Node(-3)
-    clr = Node(-1)
-    cl = Node(-2, left=cll, right=clr)
-    crl = Node(1)
-    crr = Node(3)
-    cr = Node(2, left=crl, right=crr)
-    pp = Node(0, left=cl, right=cr)
-    Node.rotate_right(pp)
+    cll = BSNode(-3)
+    clr = BSNode(-1)
+    cl = BSNode(-2, left=cll, right=clr)
+    crl = BSNode(1)
+    crr = BSNode(3)
+    cr = BSNode(2, left=crl, right=crr)
+    pp = BSNode(0, left=cl, right=cr)
+    BSNode.rotate_right(pp)
     root = cl
     assert root.right is pp
     assert pp.right is cr
@@ -38,21 +38,21 @@ def test_rotate_right():
 
 
 def test_next_prev_1():
-    cl = Node(-1)
-    cr = Node(1)
-    pp = Node(0)
+    cl = BSNode(-1)
+    cr = BSNode(1)
+    pp = BSNode(0)
     pp.set_left(cl)
     pp.set_right(cr)
-    assert cr is next(Node.next(pp))
-    assert cl is next(Node.prev(pp))
-    assert pp is next(Node.prev(next(Node.next(pp))))
-    assert pp is next(Node.next(next(Node.prev(pp))))
-    assert cr is next(Node.next(next(Node.next(cl))))
-    assert cl is next(Node.prev(next(Node.prev(cr))))
+    assert cr is next(BSNode.next(pp))
+    assert cl is next(BSNode.prev(pp))
+    assert pp is next(BSNode.prev(next(BSNode.next(pp))))
+    assert pp is next(BSNode.next(next(BSNode.prev(pp))))
+    assert cr is next(BSNode.next(next(BSNode.next(cl))))
+    assert cl is next(BSNode.prev(next(BSNode.prev(cr))))
 
 
 def test_isolated_node():
-    node = Node(None)
+    node = BSNode(None)
     assert node.is_leaf()
     assert not node.is_child()
     assert not node.is_left()
@@ -60,9 +60,9 @@ def test_isolated_node():
 
 
 def test_node_left():
-    left = Node(None)
+    left = BSNode(None)
 
-    parent = Node(None, left=left)
+    parent = BSNode(None, left=left)
 
     assert parent.left is left
 
@@ -96,9 +96,9 @@ def test_node_left():
 
 
 def test_node_right():
-    right = Node(None)
+    right = BSNode(None)
 
-    parent = Node(None, right=right)
+    parent = BSNode(None, right=right)
 
     assert parent.right is right
 
@@ -132,10 +132,10 @@ def test_node_right():
 
 
 def test_node_left_right():
-    left = Node(None)
-    right = Node(None)
+    left = BSNode(None)
+    right = BSNode(None)
 
-    parent = Node(None, left=left, right=right)
+    parent = BSNode(None, left=left, right=right)
 
     assert parent.left is left
     assert parent.right is right
