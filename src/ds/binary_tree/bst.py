@@ -49,13 +49,14 @@ class BSTree:
                     target = succ
             node.data = target.data
             child = target.left or target.right
-            if target.parent:
-                if target.parent.left is target:
-                    target.parent.left = child
+            parent = target.parent
+            if parent:
+                if parent.left is target:
+                    parent.left = child
                 else:
-                    target.parent.right = child
+                    parent.right = child
                 if child:
-                    child.parent = target.parent
+                    child.parent = parent
             else:
                 if child:
                     child.parent = None
