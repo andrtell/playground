@@ -41,8 +41,7 @@ class BSTree:
         return BSNode.info(self.root)
 
     def __iter__(self):
-        for node in BSNode.in_order(self.root):
-            yield node.data
+        return (node.data for node in BSNode.in_order(self.root))
 
 
 class BSNode:
