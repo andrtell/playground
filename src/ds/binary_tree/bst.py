@@ -150,6 +150,7 @@ class BSNode:
     def rotate_left(cls, root):
         right_child = root.right
         if right_child:
+            right_child.parent = root.parent
             root.set_right(right_child.left)
             right_child.set_left(root)
 
@@ -157,6 +158,7 @@ class BSNode:
     def rotate_right(cls, root):
         left_child = root.left
         if left_child:
+            left_child.parent = root.parent
             root.set_left(left_child.right)
             left_child.set_right(root)
 
