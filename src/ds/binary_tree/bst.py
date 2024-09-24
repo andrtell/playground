@@ -63,16 +63,16 @@ class BSTree:
                 self.root = child
 
     def find(self, data):
-        if node := find.lookup(self.root, data):
-            return node.data
+        node = find.lookup(self.root, data)
+        return node and node.data
 
     def min(self):
-        if node := find.min_leaf(self.root):
-            return node.data
+        node = find.min_leaf(self.root)
+        return node and node.data
 
     def max(self):
-        if node := find.max_leaf(self.root):
-            return node.data
+        node = find.max_leaf(self.root)
+        return node and node.data
 
     def __iter__(self):
         return (node.data for node in iter.in_order(self.root))
