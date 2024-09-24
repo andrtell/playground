@@ -45,8 +45,7 @@ class BSTree:
         if node:
             target = node
             if node.degree() == 2:
-                if succ := find.succ(node):
-                    target = succ
+                target : Node = find.succ(node) # type: ignore
             node.data = target.data
             child = target.left or target.right
             parent = target.parent
