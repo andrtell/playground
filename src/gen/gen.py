@@ -1,2 +1,2 @@
-def gen_pipe():
+def gen_pipe(generators):
     pass
