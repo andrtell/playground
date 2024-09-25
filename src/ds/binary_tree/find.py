@@ -2,15 +2,16 @@ def root(child):
     if child:
         while child.parent:
             child = child.parent
-        return child
+    return child
 
 
-def lookup(root, data):
+def node(root, data):
     while root and root.data != data:
         if data < root.data:
             root = root.left
         else:
             root = root.right
+
     return root
 
 
@@ -18,33 +19,33 @@ def min_leaf(root):
     if root:
         while root.left:
             root = root.left
-        return root
+    return root
 
 
 def max_leaf(root):
     if root:
         while root.right:
             root = root.right
-        return root
+    return root
 
 
-def succ(root):
-    if root:
-        if root.right:
-            return min_leaf(root.right)
+def succ(node):
+    if node:
+        if node.right:
+            return min_leaf(node.right)
         else:
-            while root and root.is_right():
-                root = root.parent
-            if root and root.parent:
-                return root.parent
+            while node and node.is_right():
+                node = node.parent
+
+            return node and node.parent
 
 
-def pred(root):
-    if root:
-        if root.left:
-            return max_leaf(root.left)
+def pred(node):
+    if node:
+        if node.left:
+            return max_leaf(node.left)
         else:
-            while root and root.is_left():
-                root = root.parent
-            if root and root.parent:
-                return root.parent
+            while node and node.is_left():
+                node = node.parent
+
+            return node and node.parent

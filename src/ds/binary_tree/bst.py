@@ -41,7 +41,7 @@ class BSTree:
                     return
 
     def delete(self, data):
-        node = find.lookup(self.root, data)
+        node = find.node(self.root, data)
         if node:
             target = node
             if node.degree() == 2:
@@ -61,9 +61,12 @@ class BSTree:
                     child.parent = None
                 self.root = child
 
-    def find(self, data):
-        node = find.lookup(self.root, data)
+    def has(self, data):
+        node = find.node(self.root, data)
         return node and node.data
+
+    def __contains__(self, data):
+        return self.has(data)
 
     def min(self):
         node = find.min_leaf(self.root)
