@@ -1,86 +1,48 @@
-import ds.binary_tree.iter as iter
 import ds.binary_tree.find as find
 
-from ds.binary_tree.node import Node
 
+def insert(root, child):
+    if not root:
+        return child, 1
 
-class BSTree:
-    def __init__(self):
-        self.root: Node | None = None
-        self.size = 0
+    parent = root
 
-    def __repr__(self):
-        if self.root:
-            return "Tree({})".format(self.root)
-        return "Tree()"
+    while 1:
+        if child.data == parent.data:
+            return root, 0
 
-    def __str__(self):
-        return self.__repr__()
-
-    def __len__(self):
-        return self.size
-
-    def insert(self, data):
-        child = Node(data)
-        if not self.root:
-            self.root = child
-            self.size += 1
-            return
-        parent = self.root
-        while 1:
-            if parent.data == data:
-                return
-            elif data < parent.data:
-                if parent.left:
-                    parent = parent.left
-                else:
-                    parent.left = child
-                    child.parent = parent
-                    self.size += 1
-                    return
+        if child.data < parent.data:
+            if parent.left:
+                parent = parent.left
             else:
-                if parent.right:
-                    parent = parent.right
-                else:
-                    parent.right = child
-                    child.parent = parent
-                    self.size += 1
-                    return
-
-    def delete(self, data):
-        node = find.node(self.root, data)
-        if node:
-            target = node
-            if node.degree() == 2:
-                target : Node = find.succ(node) # type: ignore
-                node.data = target.data
-            child = target.left or target.right
-            parent = target.parent
-            if parent:
-                if parent.left is target:
-                    parent.left = child
-                else:
-                    parent.right = child
+                parent.left = child
+                break
+        else:
+            if parent.right:
+                parent = parent.right
             else:
-                self.root = child
-            if child:
-                child.parent = parent
-            self.size -= 1
+                parent.right = child
+                break
 
-    def has(self, data):
-        node = find.node(self.root, data)
-        return node and node.data
+    return root, 1
 
-    def __contains__(self, data):
-        return self.has(data)
 
-    def min(self):
-        node = find.min_leaf(self.root)
-        return node and node.data
+def delete(node, path):
+    target = node
 
-    def max(self):
-        node = find.max_leaf(self.root)
-        return node and node.data
+    if node.left and node.right:
+        path.append(node)
+        target, path = find.min_leaf(node.right, path)
+        node.data = target.data
 
-    def __iter__(self):
-        return (node.data for node in iter.in_order(self.root))
+    child = target.left or target.right
+
+    if path:
+        if path[-1].left is target:
+            path[-1].left = child
+        else:
+            path[-1].right = child
+
+        return path[0], 1
+
+    return child, 1
