@@ -5,8 +5,9 @@ from ds.binary_tree.node import Node
 
 
 class BSTree:
-    def __init__(self, root=None):
-        self.root = root
+    def __init__(self):
+        self.root: Node | None = None
+        self.size = 0
 
     def __repr__(self):
         if self.root:
@@ -16,10 +17,14 @@ class BSTree:
     def __str__(self):
         return self.__repr__()
 
+    def __len__(self):
+        return self.size
+
     def insert(self, data):
         child = Node(data)
         if not self.root:
             self.root = child
+            self.size += 1
             return
         parent = self.root
         while 1:
@@ -31,6 +36,7 @@ class BSTree:
                 else:
                     parent.left = child
                     child.parent = parent
+                    self.size += 1
                     return
             else:
                 if parent.right:
@@ -38,6 +44,7 @@ class BSTree:
                 else:
                     parent.right = child
                     child.parent = parent
+                    self.size += 1
                     return
 
     def delete(self, data):
@@ -46,7 +53,7 @@ class BSTree:
             target = node
             if node.degree() == 2:
                 target : Node = find.succ(node) # type: ignore
-            node.data = target.data
+                node.data = target.data
             child = target.left or target.right
             parent = target.parent
             if parent:
@@ -54,12 +61,11 @@ class BSTree:
                     parent.left = child
                 else:
                     parent.right = child
-                if child:
-                    child.parent = parent
             else:
-                if child:
-                    child.parent = None
                 self.root = child
+            if child:
+                child.parent = parent
+            self.size -= 1
 
     def has(self, data):
         node = find.node(self.root, data)

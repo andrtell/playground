@@ -11,7 +11,6 @@ def node(root, data):
             root = root.left
         else:
             root = root.right
-
     return root
 
 
