@@ -21,6 +21,9 @@ def insert(path, data):
 
     path.append(child)
 
+    for node in reversed(path):
+        node.update_height()
+
     return path, 1
 
 
@@ -50,5 +53,8 @@ def delete(path, data):
 
     if desc:
         path.append(desc)
+
+    for node in reversed(path):
+        node.update_height()
 
     return path, 1
