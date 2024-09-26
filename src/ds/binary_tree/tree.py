@@ -3,8 +3,6 @@ import ds.binary_tree.find as find
 
 import ds.binary_tree.bst as bst
 
-from ds.binary_tree.node import Node
-
 
 class Tree:
     def __init__(self, strategy=bst):
@@ -42,14 +40,12 @@ class Tree:
         return bool(self.has(data))
 
     def min(self):
-        path = find.min_leaf(self.root)
-        if path:
-            return path[-1].data
+        if self.root:
+            return find.min_leaf(self.root)[-1].data
 
     def max(self):
-        path = find.max_leaf(self.root)
-        if path:
-            return path[-1].data
+        if self.root:
+            return find.max_leaf(self.root)[-1].data
 
     def __iter__(self):
         return (node.data for node in iter.in_order(self.root))

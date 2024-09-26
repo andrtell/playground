@@ -2,6 +2,7 @@ import ds.binary_tree.find as find
 
 from ds.binary_tree.node import Node
 
+
 def insert(path, data):
     path, count = find.lookup(path, data)
 
@@ -9,7 +10,7 @@ def insert(path, data):
         return path, 0
 
     child = Node(data)
-    
+
     if path:
         parent = path[-1]
 

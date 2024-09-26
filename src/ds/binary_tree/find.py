@@ -22,7 +22,7 @@ def min_leaf(path):
         while 1:
             root = path[-1]
             if root.left:
-                path.append(root)
+                path.append(root.left)
             else:
                 break
     return path
@@ -33,7 +33,7 @@ def max_leaf(path):
         while 1:
             root = path[-1]
             if root.right:
-                path.append(root)
+                path.append(root.right)
             else:
                 break
     return path
