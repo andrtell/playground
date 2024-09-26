@@ -14,15 +14,11 @@ class Node:
 
     def __repr__(self):
         s = []
-
         s.append(f"{self.data}, height={self.height}")
-
         if self.left:
             s.append(f"left={self.left}")
-
         if self.right:
             s.append(f"right={self.right}")
-
         return "Node(" + ", ".join(s) + ")"
 
     def __str__(self):
