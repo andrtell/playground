@@ -6,12 +6,11 @@ class Node:
         self.height = 1
 
     def update_height(self):
-        h = 0
-        if self.left:
-            h = max(h, self.left.height)
-        if self.right:
-            h = max(h, self.right.height)
-        self.height = h + 1
+        h = max(
+            self.left and self.left.height or 0,
+            self.right and self.right.height or 0,
+        )
+        self.height = 1 + h
 
     def __repr__(self):
         s = []

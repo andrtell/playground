@@ -1,4 +1,4 @@
-from ds.binary_tree.bst import bst
+import ds.binary_tree.bst as bst
 
 
 def insert(path, data):
