@@ -10,14 +10,6 @@ class Tree:
         self.root = []
         self.size = 0
 
-    def __repr__(self):
-        if self.root:
-            return "Tree({})".format(self.root)
-        return "Tree()"
-
-    def __str__(self):
-        return self.__repr__()
-
     def __len__(self):
         return self.size
 
@@ -49,3 +41,11 @@ class Tree:
 
     def __iter__(self):
         return (node.data for node in iter.in_order(self.root))
+
+    def __repr__(self):
+        if self.root:
+            return "Tree({})".format(self.root)
+        return "Tree()"
+
+    def __str__(self):
+        return self.__repr__()
