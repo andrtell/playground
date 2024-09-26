@@ -3,7 +3,7 @@ class Node:
         self.data = data
         self.left = None
         self.right = None
-        self.height = 0
+        self.height = 1
 
     def update_height(self):
         h = 0
