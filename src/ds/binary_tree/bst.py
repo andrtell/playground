@@ -46,5 +46,7 @@ def delete(path, data):
             parent.left = desc
         else:
             parent.right = desc
+    elif desc:
+        path = [desc]
 
     return path, 1
