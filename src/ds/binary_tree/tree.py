@@ -8,9 +8,9 @@ from ds.binary_tree.node import Node
 
 class Tree:
     def __init__(self, strategy=bst):
-        self.root: Node | None = None
-        self.size = 0
         self.strategy = strategy
+        self.root = []
+        self.size = 0
 
     def __repr__(self):
         if self.root:
@@ -24,28 +24,32 @@ class Tree:
         return self.size
 
     def insert(self, data):
-        self.root, count = self.strategy.insert(self.root, Node(data))
+        path, count = self.strategy.insert(self.root, data)
+        self.root = path[0:1]
         self.size += count
 
     def delete(self, data):
-        node, path = find.node(self.root, data)
-        self.root, count = self.strategy.delete(node, path)
+        path, count = self.strategy.delete(self.root, data)
+        self.root = path[0:1]
         self.size -= count
 
     def has(self, data):
-        node, _ = find.node(self.root, data)
-        return node and node.data
+        path, count = find.lookup(self.root, data)
+        if count:
+            return path[-1].data
 
     def __contains__(self, data):
-        return self.has(data)
+        return bool(self.has(data))
 
     def min(self):
-        node, _ = find.min_leaf(self.root)
-        return node and node.data
+        path = find.min_leaf(self.root)
+        if path:
+            return path[-1].data
 
     def max(self):
-        node, _ = find.max_leaf(self.root)
-        return node and node.data
+        path = find.max_leaf(self.root)
+        if path:
+            return path[-1].data
 
     def __iter__(self):
         return (node.data for node in iter.in_order(self.root))

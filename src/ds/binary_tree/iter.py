@@ -1,9 +1,9 @@
 import collections
 
 
-def in_order(root):
-    if root:
-        stack, node = [], root
+def in_order(path):
+    if path:
+        stack, node = [], path[0]
         while True:
             if node:
                 stack.append(node)
@@ -16,9 +16,9 @@ def in_order(root):
                 break
 
 
-def pre_order(root):
-    if root:
-        stack, node = [], root
+def pre_order(path):
+    if path:
+        stack, node = [], path[0]
         while True:
             if node:
                 yield node
@@ -30,9 +30,9 @@ def pre_order(root):
                 break
 
 
-def post_order(root):
-    if root:
-        stack, order = [root], []
+def post_order(path):
+    if path:
+        stack, order = [path[0]], []
         while stack:
             node = stack.pop()
             order.append(node)
@@ -44,11 +44,11 @@ def post_order(root):
             yield order.pop()
 
 
-def level_order(root):
-    if root:
+def level_order(path):
+    if path:
         items = 1
         level = 1
-        que = collections.deque([root])
+        que = collections.deque([path[0]])
         while items > 0:
             while items > 0:
                 items -= 1

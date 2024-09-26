@@ -1,61 +1,73 @@
-def root(child):
-    if child:
-        while child.parent:
-            child = child.parent
-    return child
-
-
-def node(root, data, path=[]):
-    while root and root.data != data:
-        path.append(root)
-        if data < root.data:
-            root = root.left
-        else:
-            root = root.right
-    return root, path
-
-
-def min_leaf(root, path=[]):
-    if root:
-        while root.left:
-            path.append(root)
-            root = root.left
-    return root, path
-
-
-def max_leaf(root, path=[]):
-    if root:
-        while root.right:
-            path.append(root)
-            root = root.right
-    return root, path
-
-
-def succ(node, path):
-    if node:
-        if node.right:
-            path.append(node)
-            return min_leaf(node.right, path)
-        else:
-            while path:
-                parent = path.pop()
-                if node is parent.right:
-                    node = parent
+def lookup(path, data):
+    if path:
+        while 1:
+            root = path[-1]
+            if data < root.data:
+                if root.left:
+                    path.append(root.left)
                 else:
-                    return parent, path
-    return None, []
-
-
-def pred(node, path):
-    if node:
-        if node.left:
-            path.append(node)
-            return max_leaf(node.left, path)
-        else:
-            while path:
-                parent = path.pop()
-                if node is parent.left:
-                    node = parent
+                    break
+            elif data > root.data:
+                if root.right:
+                    path.append(root.right)
                 else:
-                    return parent, path
-    return None, []
+                    break
+            else:
+                return path, 1
+    return path, 0
+
+
+def min_leaf(path):
+    if path:
+        while 1:
+            root = path[-1]
+            if root.left:
+                path.append(root)
+            else:
+                break
+    return path
+
+
+def max_leaf(path):
+    if path:
+        while 1:
+            root = path[-1]
+            if root.right:
+                path.append(root)
+            else:
+                break
+    return path
+
+
+def successor(path):
+    if path:
+        pred = path[-1]
+        if pred.right:
+            path.append(pred.right)
+            return min_leaf(path)
+        else:
+            path.pop()
+            while path:
+                parent = path[-1]
+                if pred is parent.right:
+                    pred = path.pop()
+                else:
+                    return path
+    return []
+
+
+def predecessor(path):
+    if path:
+        succ = path[-1]
+        if succ.left:
+            path.append(succ.left)
+            return max_leaf(path)
+        else:
+            path.pop()
+            while path:
+                parent = path[-1]
+                if succ is parent.left:
+                    succ = path.pop()
+                else:
+                    return path
+    return []

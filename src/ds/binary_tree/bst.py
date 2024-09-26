@@ -1,48 +1,50 @@
 import ds.binary_tree.find as find
 
+from ds.binary_tree.node import Node
 
-def insert(root, child):
-    if not root:
-        return child, 1
+def insert(path, data):
+    path, count = find.lookup(path, data)
 
-    parent = root
+    if count:
+        return path, 0
 
-    while 1:
-        if child.data == parent.data:
-            return root, 0
+    child = Node(data)
+    
+    if path:
+        parent = path[-1]
 
-        if child.data < parent.data:
-            if parent.left:
-                parent = parent.left
-            else:
-                parent.left = child
-                break
+        if data < parent.data:
+            parent.left = child
         else:
-            if parent.right:
-                parent = parent.right
-            else:
-                parent.right = child
-                break
+            parent.right = child
 
-    return root, 1
+    path.append(child)
+
+    return path, 1
 
 
-def delete(node, path):
-    target = node
+def delete(path, data):
+    path, count = find.lookup(path, data)
+
+    if not count:
+        return path, 0
+
+    node = path[-1]
 
     if node.left and node.right:
-        path.append(node)
-        target, path = find.min_leaf(node.right, path)
-        node.data = target.data
+        path.append(node.right)
+        path = find.min_leaf(path)
+        node.data = path[-1].data
 
-    child = target.left or target.right
+    wipe = path.pop()
+
+    desc = wipe.left or wipe.right
 
     if path:
-        if path[-1].left is target:
-            path[-1].left = child
+        parent = path[-1]
+        if parent.left is wipe:
+            parent.left = desc
         else:
-            path[-1].right = child
+            parent.right = desc
 
-        return path[0], 1
-
-    return child, 1
+    return path, 1
