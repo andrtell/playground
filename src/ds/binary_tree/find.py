@@ -14,6 +14,7 @@ def lookup(path, data):
                     break
             else:
                 return path, 1
+
     return path, 0
 
 
@@ -25,6 +26,7 @@ def min_leaf(path):
                 path.append(root.left)
             else:
                 break
+
     return path
 
 
@@ -36,6 +38,7 @@ def max_leaf(path):
                 path.append(root.right)
             else:
                 break
+
     return path
 
 
@@ -52,8 +55,9 @@ def successor(path):
                 if pred is parent.right:
                     pred = path.pop()
                 else:
-                    return path
-    return []
+                    break
+
+    return path
 
 
 def predecessor(path):
@@ -69,5 +73,6 @@ def predecessor(path):
                 if succ is parent.left:
                     succ = path.pop()
                 else:
-                    return path
-    return []
+                    break
+
+    return path
