@@ -25,7 +25,6 @@ class Tree:
         path, count = self.strategy.insert(path, Node(data))
 
         self.root = path[:1]
-
         self.size += count
 
     def delete(self, data):
@@ -36,12 +35,8 @@ class Tree:
 
         path, count = self.strategy.delete(path)
 
+        self.root = path[0:1]
         self.size -= count
-
-        if path:
-            self.root = path[0]
-        else:
-            self.root = None
 
     def has(self, data):
         _, count = find.lookup(self.root[:], data)

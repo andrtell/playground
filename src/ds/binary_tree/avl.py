@@ -53,10 +53,50 @@ def insert(path, child):
 def delete(path):
     path, count = bst.delete(path)
 
-    if not count:
+    if not count or abs(path[0].balance) < 2:
         return path, count
 
-    pass
+    new_path = [path.pop(), path.pop(), path.pop()]
+
+    j = len(path)
+
+    while j >= 0:
+        p = new_path[-1]
+        c = new_path[-2]
+
+        if p.right is c:
+            if p.balance < -1:
+                if c.balance > 0:
+                    new_path = rotate_right_left(new_path)
+                else:
+                    new_path = rotate_left(new_path)
+            elif p.balance == 0:
+                break
+        else:
+            if p.balance > 1:
+                if c.balance < 0:
+                    new_path = rotate_left_right(new_path)
+                else:
+                    new_path = rotate_right(new_path)
+            elif p.balance == 0:
+                break
+
+        if path:
+            r = path.pop()
+            if r.left is p:
+                r.left = new_path[-1]
+            else:
+                r.right = new_path[-1]
+            r.update()
+            new_path.append(r)
+
+        j -= 1
+
+    new_path.reverse()
+
+    path.extend(new_path)
+
+    return path, 1
 
 
 def rotate_left(path):
