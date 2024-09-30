@@ -31,6 +31,10 @@ class BiTree:
     def insert(self, value):
         pass
 
+    def insert_from(self, iter):
+        for value in iter:
+            self.insert(value)
+
     def delete(self, value):
         pass
 
