@@ -1,21 +1,21 @@
-def lookup(path, data):
+def lookup(path, value):
     if path:
         while 1:
             root = path[-1]
-            if data < root.data:
+            if value < root.value:
                 if root.left:
                     path.append(root.left)
                 else:
                     break
-            elif data > root.data:
+            elif value > root.value:
                 if root.right:
                     path.append(root.right)
                 else:
                     break
             else:
-                return path, 1
+                return path, True
 
-    return path, 0
+    return path, False
 
 
 def min_leaf(path):

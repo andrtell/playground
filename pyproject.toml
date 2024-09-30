@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "playground"
 version = "0.0.1"
 requires-python = ">=3.12"
-dependencies = ["numpy>=2.1"]
+dependencies = ["numpy>=2.1", "optional.py"]
 
 [project.optional-dependencies]
 dev = [
@@ -16,6 +16,7 @@ dev = [
     "mypy>=1.11",
     "pytest>=8.3",
     "hypothesis>=6.112",
+    "debugpy",
 ]
 
 [tool.ruff]
