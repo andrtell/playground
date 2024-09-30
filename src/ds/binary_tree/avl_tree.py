@@ -185,7 +185,7 @@ def rotate_right_left(p, c):
         c.bf = 0
     else:
         p.bf = 0
-        c.pf += 1
+        c.bf += 1
 
     q.bf = 0
 
@@ -209,7 +209,7 @@ def rotate_left_right(p, c):
         c.bf = 0
     else:
         p.bf = 0
-        c.pf -= 1
+        c.bf -= 1
 
     q.bf = 0
 
