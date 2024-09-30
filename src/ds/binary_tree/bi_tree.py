@@ -60,7 +60,7 @@ class BiTree:
                 return path[-1].value
 
     def __iter__(self):
-        return (node.data for node in iter.in_order(self.root))
+        return (node.value for node in iter.in_order(self.root))
 
     def __repr__(self):
         if self.root:

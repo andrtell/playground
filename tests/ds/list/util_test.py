@@ -28,5 +28,5 @@ def test_is_not_sorted(count):
 @given(st.integers(0, 23))
 def test_is_permutation(count):
     a = util.random_list(count)
-    b = util.shuffled(a)
+    b = util.shuffle_list(a)
     assert util.is_permutation(a, b)

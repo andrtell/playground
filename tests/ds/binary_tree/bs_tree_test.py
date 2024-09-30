@@ -1,4 +1,4 @@
-from ds.binary_tree.tree import Tree
+from ds.binary_tree import BSTree
 
 from hypothesis import given, strategies as st
 
@@ -8,9 +8,8 @@ import ds.list.util as util
 @given(st.integers(0, 100))
 def test_sorted(count):
     src = util.random_list(count, 0, 100)
-    tree = Tree()
-    for v in src:
-        tree.insert(v)
+    t = BSTree()
+    t.insert_from(src)
     src = list(set(src))
     src.sort()
-    assert list(tree) == src
+    assert list(t) == src

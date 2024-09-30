@@ -7,6 +7,11 @@ def random_list(count=10, min=0, max=10, seed=None):
     return [r.randint(min, max) for _ in range(count)]
 
 
+def shuffle_list(lst, seed=None):
+    r.seed(seed)
+    return r.sample(lst, len(lst))
+
+
 def is_sorted(ls):
     for i in range(len(ls) - 1):
         if ls[i] > ls[i + 1]:
@@ -31,8 +36,3 @@ def is_permutation(a, b):
         hmap[v] -= 1
 
     return True
-
-
-def shuffled(lst, seed=None):
-    r.seed(seed)
-    return r.sample(lst, len(lst))
