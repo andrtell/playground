@@ -27,3 +27,12 @@ def test_max(count):
     t = AVLTree()
     t.insert_from(src)
     assert t.max() == max(src)
+
+@given(st.integers(1, 100))
+def test_bf(count):
+    src = util.random_list(count, 0, 100)
+    t = AVLTree()
+    for v in src:
+        t.insert(v)
+        if t.root:
+            assert abs(t.root.bf) < 2

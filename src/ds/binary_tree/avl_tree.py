@@ -27,42 +27,37 @@ class AVLTree(BiTree):
 
         while path:
             p = path.pop()
-
             if p.right is c:
-                if p.bf > 0:
-                    if c.bf < 0:
-                        n = rotate_right_left(p, c)
-                    else:
-                        n = rotate_left(p, c)
-                else:
-                    if p.bf < 0:
-                        p.bf = 0
-                        return
-                    else:
-                        p.bf += 1
-                        c = p
-                        continue
-            else:
                 if p.bf < 0:
-                    if c.bf > 0:
-                        n = rotate_left_right(p, c)
-                    else:
-                        n = rotate_right(p, c)
+                    p.bf = 0
+                    return
+                if p.bf == 0:
+                    p.bf += 1
+                    c = p
+                    continue
+                if c.bf < 0:
+                    n = rotate_right_left(p, c)
                 else:
-                    if p.bf > 0:
-                        p.bf = 0
-                        return
-                    else:
-                        p.bf -= 1
-                        c = p
-                        continue
+                    n = rotate_left(p, c)
+            else:
+                if p.bf > 0:
+                    p.bf = 0
+                    return
+                if p.bf == 0:
+                    p.bf -= 1
+                    c = p
+                    continue
+                if c.bf > 0:
+                    n = rotate_left_right(p, c)
+                else:
+                    n = rotate_right(p, c)
 
             if path:
-                r = path[-1]
-                if r.left is p:
-                    r.left = n
+                pp = path[-1]
+                if pp.left is p:
+                    pp.left = n
                 else:
-                    r.right = n
+                    pp.right = n
             else:
                 self.root = n
 
@@ -94,46 +89,41 @@ class AVLTree(BiTree):
 
         while path:
             p = path.pop()
-
             if p.left is c:
-                if p.bf > 0:
-                    c_r = p.right
-                    b = c_r.bf
-                    if b < 0:
-                        n = rotate_right_left(p, c_r)
-                    else:
-                        n = rotate_left(p, c_r)
-                else:
-                    if p.bf == 0:
-                        p.bf += 1
-                        return
-                    else:
-                        p.bf = 0
-                        c = p
-                        continue
-            else:
                 if p.bf < 0:
-                    c_l = p.left
-                    b = c_l.bf
-                    if b > 0:
-                        n = rotate_left_right(p, c_l)
-                    else:
-                        n = rotate_right(p, c_l)
+                    p.bf = 0
+                    c = p
+                    continue
+                if p.bf == 0:
+                    p.bf += 1
+                    return
+                r = p.right
+                b = r.bf
+                if b < 0:
+                    n = rotate_right_left(p, r)
                 else:
-                    if p.bf == 0:
-                        p.bf -= 1
-                        return
-                    else:
-                        p.bf = 0
-                        c = p
-                        continue
+                    n = rotate_left(p, r)
+            else:
+                if p.bf > 0:
+                    p.bf = 0
+                    c = p
+                    continue
+                if p.bf == 0:
+                    p.bf -= 1
+                    return
+                le = p.left
+                b = le.bf
+                if b > 0:
+                    n = rotate_left_right(p, le)
+                else:
+                    n = rotate_right(p, le)
 
             if path:
-                r = path[-1]
-                if r.left is p:
-                    r.left = n
+                pp = path[-1]
+                if pp.left is p:
+                    pp.left = n
                 else:
-                    r.right = n
+                    pp.right = n
             else:
                 self.root = n
 
@@ -169,48 +159,38 @@ def rotate_right(p, c):
 
 
 def rotate_right_left(p, c):
-    q = c.left
-
-    c.left = q.right
-    q.right = c
-
-    p.right = q.left
-    q.left = p
-
-    if q.bf == 0:
+    le = c.left
+    c.left = le.right
+    le.right = c
+    p.right = le.left
+    le.left = p
+    if le.bf == 0:
         p.bf = 0
         c.bf = 0
-    elif q.bf > 0:
+    elif le.bf > 0:
         p.bf -= 1
         c.bf = 0
     else:
         p.bf = 0
         c.bf += 1
-
-    q.bf = 0
-
-    return q
+    le.bf = 0
+    return le
 
 
 def rotate_left_right(p, c):
-    q = c.right
-
-    c.right = q.left
-    q.left = c
-
-    p.left = q.right
-    q.right = p
-
-    if q.bf == 0:
+    ri = c.right
+    c.right = ri.left
+    ri.left = c
+    p.left = ri.right
+    ri.right = p
+    if ri.bf == 0:
         p.bf = 0
         c.bf = 0
-    elif q.bf < 0:
+    elif ri.bf < 0:
         p.bf += 1
         c.bf = 0
     else:
         p.bf = 0
         c.bf -= 1
-
-    q.bf = 0
-
-    return q
+    ri.bf = 0
+    return ri
