@@ -17,6 +17,7 @@ mypy = "^1.11.2"
 
 [tool.poetry.group.dev.dependencies]
 debugpy = "^1.8.6"
+taskipy = "^1.13.0"
 
 [build-system]
 required = ["poetry-core"]
@@ -30,3 +31,16 @@ target-version = "py312"
 [tool.mypy]
 exclude = ["build/", "dist/"]
 warn_unused_ignores = true
+
+[tool.taskipy.tasks.format]
+cmd = "python -m ruff format"
+
+[tool.taskipy.tasks.lint]
+cmd = """
+python -m ruff format . --check
+python -m ruff check . 
+python -m mypy .
+"""
+
+[tool.taskipy.tasks.test]
+cmd = "python -m pytest"
