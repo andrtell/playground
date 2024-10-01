@@ -1,8 +1,6 @@
 from hypothesis import given, strategies as st
-
-import ds.list.util as util
-
-from ds.binary_tree import BSTree
+import dsa.util as util
+from dsa.binary_tree import BSTree
 
 
 @given(st.integers(0, 100))

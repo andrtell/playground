@@ -1,4 +1,4 @@
-import ds.binary_tree.find as find
+import dsa.binary_tree.find as find
 
 
 def insert(path, child):

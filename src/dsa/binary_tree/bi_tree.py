@@ -1,5 +1,5 @@
-import ds.binary_tree.iter as iter
-import ds.binary_tree.find as find
+import dsa.binary_tree.iter as iter
+import dsa.binary_tree.find as find
 
 from typing import Optional
 

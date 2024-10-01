@@ -1,6 +1,6 @@
-import ds.binary_tree.vary as vary
+import dsa.binary_tree.vary as vary
 
-from ds.binary_tree.bi_tree import BiTree, BiNode
+from dsa.binary_tree.bi_tree import BiTree, BiNode
 
 
 class BSNode(BiNode):

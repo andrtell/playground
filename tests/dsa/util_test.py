@@ -1,6 +1,6 @@
 from hypothesis import given, strategies as st
 
-import ds.list.util as util
+import dsa.util as util
 
 
 @given(st.integers(0, 23), st.integers(0, 100))
