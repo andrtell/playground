@@ -4,7 +4,12 @@ version = "0.0.1"
 description = ""
 authors = ["andrtell"]
 readme = "README.md"
-packages = [{ include = "ds", from = "src" }]
+packages = [
+    { include = "ds", from = "src" },
+    { include = "hr", from = "src" },
+    { include = "leet", from = "src" },
+    { include = "lex", from = "src" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.12"
