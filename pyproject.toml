@@ -1,23 +1,26 @@
-[build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
-
-[project]
+[tool.poetry]
 name = "playground"
 version = "0.0.1"
-requires-python = ">=3.12"
-dependencies = ["numpy>=2.1", "optional.py"]
+description = ""
+authors = ["andrtell"]
+readme = "README.md"
+packages = [{ include = "ds", from = "src" }]
 
-[project.optional-dependencies]
-dev = [
-    "build",
-    "tox",
-    "ruff>=0.6",
-    "mypy>=1.11",
-    "pytest>=8.3",
-    "hypothesis>=6.112",
-    "debugpy",
-]
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.3"
+hypothesis = "^6.112.2"
+ruff = "^0.6.8"
+mypy = "^1.11.2"
+
+[tool.poetry.group.dev.dependencies]
+debugpy = "^1.8.6"
+
+[build-system]
+required = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
 line-length = 80
