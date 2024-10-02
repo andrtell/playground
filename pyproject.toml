@@ -6,6 +6,7 @@ authors = ["andrtell"]
 readme = "README.md"
 packages = [
     { include = "dsa", from = "src" },
+    { include = "demo", from = "src" },
     { include = "leet", from = "src" },
 ]
 
@@ -21,6 +22,7 @@ mypy = "^1.11.2"
 [tool.poetry.group.dev.dependencies]
 debugpy = "^1.8.6"
 taskipy = "^1.13.0"
+ipython = "^8.28.0"
 
 [build-system]
 required = ["poetry-core"]
