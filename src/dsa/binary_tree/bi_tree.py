@@ -1,5 +1,6 @@
 import dsa.binary_tree.iter as iter
 import dsa.binary_tree.find as find
+import dsa.binary_tree.info as info
 
 from typing import Optional
 
@@ -10,9 +11,6 @@ class BiNode:
         self.left: Optional[BiNode] = None
         self.right: Optional[BiNode] = None
 
-    def update(self):
-        pass
-
     def __repr__(self):
         return f"Node({self.value})"
 
@@ -21,32 +19,25 @@ class BiNode:
 
 
 class BiTree:
-    def __init__(self):
-        self.root = None
+    def __init__(self, root=None):
+        self.root = root
         self.size = 0
-
-    def __len__(self):
-        return self.size
 
     def insert(self, value):
         pass
 
-    def insert_from(self, iter):
-        for value in iter:
-            self.insert(value)
-
     def delete(self, value):
         pass
 
-    def find(self, data):
+    def find(self, value):
         if self.root:
-            path, found = find.lookup([self.root], data)
+            path, found = find.lookup([self.root], value)
 
             if found:
                 return path[-1].value
 
-    def __contains__(self, data):
-        return bool(self.find(data))
+    def __contains__(self, value):
+        return bool(self.find(value))
 
     def min(self):
         if self.root:
@@ -62,8 +53,17 @@ class BiTree:
             if path:
                 return path[-1].value
 
+    def left(self):
+        return type(self)(self.root and self.root.left or None)
+
+    def right(self):
+        return type(self)(self.root and self.root.right or None)
+
+    def __len__(self):
+        return self.size
+
     def __iter__(self):
-        return (node.value for node in iter.in_order(self.root))
+        return (node.value for node, _ in iter.in_order(self.root))
 
     def __repr__(self):
         if self.root:
@@ -73,6 +73,6 @@ class BiTree:
 
     def __str__(self):
         str = ""
-        for node, lvl in iter.pre_order(self.root):
-            str = str + ("  " * lvl) + node.__str__() + "\n"
+        for node, depth in iter.pre_order(self.root):
+            str = str + ("  " * depth) + node.__str__() + "\n"
         return str

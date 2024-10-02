@@ -3,6 +3,13 @@ import dsa.binary_tree.vary as vary
 from dsa.binary_tree.bi_tree import BiTree, BiNode
 
 
+def avltree(iter):
+    tree = AVLTree()
+    for value in iter:
+        tree.insert(value)
+    return tree
+
+
 class AVLNode(BiNode):
     def __init__(self, value):
         super().__init__(value)
@@ -16,9 +23,9 @@ class AVLTree(BiTree):
             self.size = 1
             return
 
-        path, updated = vary.insert([self.root], AVLNode(value))
+        path, changed = vary.insert([self.root], AVLNode(value))
 
-        if not updated:
+        if not changed:
             return
 
         self.size += 1
@@ -39,9 +46,9 @@ class AVLTree(BiTree):
                     continue
 
                 if c.bf < 0:
-                    n = rotate_right_left(p, c)
+                    n = rotate_right_left(p)
                 else:
-                    n = rotate_left(p, c)
+                    n = rotate_left(p)
             else:
                 if p.bf > 0:
                     p.bf = 0
@@ -53,9 +60,9 @@ class AVLTree(BiTree):
                     continue
 
                 if c.bf > 0:
-                    n = rotate_left_right(p, c)
+                    n = rotate_left_right(p)
                 else:
-                    n = rotate_right(p, c)
+                    n = rotate_right(p)
 
             if path:
                 pp = path[-1]
@@ -103,13 +110,12 @@ class AVLTree(BiTree):
                     p.bf = 1
                     break
 
-                r = p.right
-                bf = r.bf
+                bf = p.right.bf
 
                 if bf < 0:
-                    n = rotate_right_left(p, r)
+                    n = rotate_right_left(p)
                 else:
-                    n = rotate_left(p, r)
+                    n = rotate_left(p)
             else:
                 if p.bf > 0:
                     c = p
@@ -120,13 +126,12 @@ class AVLTree(BiTree):
                     p.bf = -1
                     break
 
-                le = p.left
-                bf = le.bf
+                bf = p.left.bf
 
                 if bf > 0:
-                    n = rotate_left_right(p, le)
+                    n = rotate_left_right(p)
                 else:
-                    n = rotate_right(p, le)
+                    n = rotate_right(p)
 
             c = n
 
@@ -146,7 +151,8 @@ class AVLTree(BiTree):
 # ----- ROTATE -------
 
 
-def rotate_left(p, c):
+def rotate_left(p):
+    c = p.right
     p.right = c.left
     c.left = p
     if c.bf == 0:
@@ -158,7 +164,8 @@ def rotate_left(p, c):
     return c
 
 
-def rotate_right(p, c):
+def rotate_right(p):
+    c = p.left
     p.left = c.right
     c.right = p
     if c.bf == 0:
@@ -170,7 +177,8 @@ def rotate_right(p, c):
     return c
 
 
-def rotate_right_left(p, c):
+def rotate_right_left(p):
+    c = p.right
     le = c.left
     c.left = le.right
     le.right = c
@@ -189,7 +197,8 @@ def rotate_right_left(p, c):
     return le
 
 
-def rotate_left_right(p, c):
+def rotate_left_right(p):
+    c = p.left
     ri = c.right
     c.right = ri.left
     ri.left = c

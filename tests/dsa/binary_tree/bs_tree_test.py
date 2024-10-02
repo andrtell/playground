@@ -1,38 +1,43 @@
 from hypothesis import given, strategies as st
+
 import dsa.util as util
-from dsa.binary_tree import BSTree
+from dsa.binary_tree import BSTree, bstree
+
+
+@given(st.integers(1, 100), st.integers(1, 10000))
+def test_can_insert(count, seed):
+    s = util.random_list(count, 0, 1000, seed=seed)
+    t = BSTree()
+    for v in s:
+        t.insert(v)
+
+
+@given(st.integers(1, 100), st.integers(1, 10000))
+def test_can_delete(count, seed):
+    s = util.random_list(count, 0, 1000, seed=seed)
+    t = bstree(s)
+    for v in s:
+        t.delete(v)
 
 
 @given(st.integers(0, 100), st.integers(1, 10000))
-def test_sorted(count, seed):
-    src = util.random_list(count, 0, 100, seed=seed)
-    t = BSTree()
-    t.insert_from(src)
-    src = list(set(src))
-    src.sort()
-    assert list(t) == src
+def test_in_order_is_sorted(count, seed):
+    s = util.random_list(count, 0, 100, seed=seed)
+    t = bstree(s)
+    s = list(set(s))
+    s.sort()
+    assert list(t) == s
 
 
 @given(st.integers(1, 100), st.integers(1, 10000))
-def test_min(count, seed):
-    src = util.random_list(count, 0, 1000, seed=seed)
-    t = BSTree()
-    t.insert_from(src)
-    assert t.min() == min(src)
+def test_min_value(count, seed):
+    s = util.random_list(count, 0, 1000, seed=seed)
+    t = bstree(s)
+    assert t.min() == min(s)
 
 
 @given(st.integers(1, 100), st.integers(1, 10000))
-def test_max(count, seed):
-    src = util.random_list(count, 0, 1000, seed=seed)
-    t = BSTree()
-    t.insert_from(src)
-    assert t.max() == max(src)
-
-
-@given(st.integers(1, 100), st.integers(1, 10000))
-def test_delete(count, seed):
-    src = util.random_list(count, 0, 1000, seed=seed)
-    t = BSTree()
-    t.insert_from(src)
-    for v in src:
-        t.delete(v)
+def test_max_value(count, seed):
+    s = util.random_list(count, 0, 1000, seed=seed)
+    t = bstree(s)
+    assert t.max() == max(s)

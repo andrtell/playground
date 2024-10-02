@@ -3,14 +3,17 @@ import collections
 
 def in_order(root):
     if root:
-        stack, node = [], root
+        node = root
+        depth = 1
+        stack = []
         while True:
             if node:
-                stack.append(node)
+                stack.append((node, depth))
+                depth += 1
                 node = node.left
             elif stack:
-                node = stack.pop()
-                yield node
+                node, depth = stack.pop()
+                yield node, depth
                 node = node.right
             else:
                 break
@@ -18,16 +21,17 @@ def in_order(root):
 
 def pre_order(root):
     if root:
-        lvl = 0
-        stack, node = [], root
+        node = root
+        depth = 1
+        stack = []
         while True:
             if node:
-                yield (node, lvl)
-                stack.append((node, lvl + 1))
+                yield (node, depth)
+                depth += 1
+                stack.append((node, depth))
                 node = node.left
-                lvl += 1
             elif stack:
-                parent, lvl = stack.pop()
+                parent, depth = stack.pop()
                 node = parent.right
             else:
                 break
@@ -35,31 +39,32 @@ def pre_order(root):
 
 def post_order(root):
     if root:
-        stack, order = [root], []
+        stack = [(root, 1)]
+        order = []
         while stack:
-            node = stack.pop()
+            node, depth = stack.pop()
             order.append(node)
             if node.left:
-                stack.append(node.left)
+                stack.append((node.left, depth + 1))
             if node.right:
-                stack.append(node.right)
+                stack.append((node.right, depth + 1))
         while order:
             yield order.pop()
 
 
 def level_order(root):
     if root:
-        items = 1
-        level = 1
+        depth = 1
+        count = 1
         que = collections.deque([root])
-        while items > 0:
-            while items > 0:
-                items -= 1
+        while count > 0:
+            while count > 0:
+                count -= 1
                 node = que.popleft()
-                yield (node, level)
+                yield (node, depth)
                 if node.left:
                     que.append(node.left)
                 if node.right:
                     que.append(node.right)
-            items = len(que)
-            level += 1
+            count = len(que)
+            depth += 1

@@ -1,4 +1,4 @@
-from dsa.binary_tree.avl_tree import AVLTree
-from dsa.binary_tree.bs_tree import BSTree
+from dsa.binary_tree.avl_tree import AVLTree, avltree
+from dsa.binary_tree.bs_tree import BSTree, bstree
 
-__all__ = ["AVLTree", "BSTree"]
+__all__ = ["BSTree", "bstree", "AVLTree", "avltree"]
