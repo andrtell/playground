@@ -27,14 +27,17 @@ class AVLTree(BiTree):
 
         while path:
             p = path.pop()
+
             if p.right is c:
                 if p.bf < 0:
                     p.bf = 0
-                    return
+                    break
+
                 if p.bf == 0:
-                    p.bf += 1
+                    p.bf = 1
                     c = p
                     continue
+
                 if c.bf < 0:
                     n = rotate_right_left(p, c)
                 else:
@@ -42,11 +45,13 @@ class AVLTree(BiTree):
             else:
                 if p.bf > 0:
                     p.bf = 0
-                    return
+                    break
+
                 if p.bf == 0:
-                    p.bf -= 1
+                    p.bf = -1
                     c = p
                     continue
+
                 if c.bf > 0:
                     n = rotate_left_right(p, c)
                 else:
@@ -61,62 +66,69 @@ class AVLTree(BiTree):
             else:
                 self.root = n
 
-            return
+            break
 
     def delete(self, value):
         if not self.root:
             return
 
-        path, updated = vary.delete([self.root], value)
+        path, new_child, changed = vary.delete([self.root], value)
 
-        if not updated:
-            return
-
-        if not path:
-            self.root = None
-            self.size = 0
-            return
-
-        if len(path) < 2:
-            self.root = path[0]
-            self.size = 1
-            self.root.bf = 0
+        if not changed:
             return
 
         self.size -= 1
 
-        c = path.pop()
+        if not path:
+            self.root = new_child
+            return
+
+        c = new_child
 
         while path:
             p = path.pop()
+
+            if not (p.left or p.right):
+                c = p
+                c.bf = 0
+                continue
+
             if p.left is c:
                 if p.bf < 0:
-                    p.bf = 0
                     c = p
+                    c.bf = 0
                     continue
+
                 if p.bf == 0:
-                    p.bf += 1
-                    return
+                    p.bf = 1
+                    break
+
                 r = p.right
-                b = r.bf
-                if b < 0:
+                bf = r.bf
+
+                if bf < 0:
                     n = rotate_right_left(p, r)
                 else:
                     n = rotate_left(p, r)
             else:
                 if p.bf > 0:
-                    p.bf = 0
                     c = p
+                    c.bf = 0
                     continue
+
                 if p.bf == 0:
-                    p.bf -= 1
-                    return
+                    p.bf = -1
+                    break
+
                 le = p.left
-                b = le.bf
-                if b > 0:
+                bf = le.bf
+
+                if bf > 0:
                     n = rotate_left_right(p, le)
                 else:
                     n = rotate_right(p, le)
+
+            c = n
 
             if path:
                 pp = path[-1]
@@ -127,8 +139,8 @@ class AVLTree(BiTree):
             else:
                 self.root = n
 
-            if b == 0:
-                return
+            if bf == 0:
+                break
 
 
 # ----- ROTATE -------
@@ -138,8 +150,8 @@ def rotate_left(p, c):
     p.right = c.left
     c.left = p
     if c.bf == 0:
-        p.bf += 1
-        c.bf -= 1
+        p.bf = 1
+        c.bf = -1
     else:
         p.bf = 0
         c.bf = 0
@@ -150,8 +162,8 @@ def rotate_right(p, c):
     p.left = c.right
     c.right = p
     if c.bf == 0:
-        p.bf -= 1
-        c.bf += 1
+        p.bf = -1
+        c.bf = 1
     else:
         p.bf = 0
         c.bf = 0
@@ -168,11 +180,11 @@ def rotate_right_left(p, c):
         p.bf = 0
         c.bf = 0
     elif le.bf > 0:
-        p.bf -= 1
+        p.bf = -1
         c.bf = 0
     else:
         p.bf = 0
-        c.bf += 1
+        c.bf = 1
     le.bf = 0
     return le
 
@@ -187,10 +199,10 @@ def rotate_left_right(p, c):
         p.bf = 0
         c.bf = 0
     elif ri.bf < 0:
-        p.bf += 1
+        p.bf = 1
         c.bf = 0
     else:
         p.bf = 0
-        c.bf -= 1
+        c.bf = -1
     ri.bf = 0
     return ri

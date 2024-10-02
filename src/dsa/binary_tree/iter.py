@@ -18,14 +18,17 @@ def in_order(root):
 
 def pre_order(root):
     if root:
+        lvl = 0
         stack, node = [], root
         while True:
             if node:
-                yield node
-                stack.append(node)
+                yield (node, lvl)
+                stack.append((node, lvl + 1))
                 node = node.left
+                lvl += 1
             elif stack:
-                node = stack.pop().right
+                parent, lvl = stack.pop()
+                node = parent.right
             else:
                 break
 

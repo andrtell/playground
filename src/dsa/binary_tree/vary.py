@@ -27,7 +27,7 @@ def delete(path, value):
         path, found = find.lookup(path, value)
 
         if not found:
-            return path, False
+            return path, None, False
 
         node = path[-1]
 
@@ -47,9 +47,6 @@ def delete(path, value):
             else:
                 parent.right = desc
 
-        if desc:
-            path.append(desc)
+        return path, desc, True
 
-        return path, True
-
-    return [], False
+    return [], None, False

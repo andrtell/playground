@@ -10,8 +10,8 @@ class BSNode(BiNode):
 class BSTree(BiTree):
     def insert(self, value):
         if self.root:
-            _, updated = vary.insert([self.root], BSNode(value))
-            if updated:
+            _, changed = vary.insert([self.root], BSNode(value))
+            if changed:
                 self.size += 1
         else:
             self.root = BSNode(value)
@@ -19,8 +19,10 @@ class BSTree(BiTree):
 
     def delete(self, value):
         if self.root:
-            path, updated = vary.delete([self.root], value)
-            if not updated:
+            path, new_child, changed = vary.delete([self.root], value)
+
+            if not changed:
                 return
-            self.root = path and path[0] or None
+
+            self.root = path and path[0] or new_child
             self.size -= 1
