@@ -1,70 +1,119 @@
 import collections
+import dataclasses
 
+from dsa.binary_tree.node_info import NodeInfo
 
-def in_order(root):
+def in_order(root, reverse=False):
     if root:
         node = root
-        depth = 1
-        stack = []
+        side = 0
+        depth = -1
+        spine = []
+
         while True:
             if node:
-                stack.append((node, depth))
                 depth += 1
-                node = node.left
-            elif stack:
-                node, depth = stack.pop()
-                yield node, depth
-                node = node.right
+
+                spine.append((node, side, depth))
+
+                if reverse:
+                    side = 1
+                    node = node.right
+                else:
+                    side = -1
+                    node = node.left
+            elif spine:
+                node, side, depth = spine.pop()
+
+                yield node, NodeInfo(side=side, depth=depth)
+
+                if reverse:
+                    side = -1
+                    node = node.left
+                else:
+                    side = 1
+                    node = node.right
             else:
                 break
 
 
-def pre_order(root):
+def pre_order(root, reverse=False):
     if root:
         node = root
-        depth = 1
-        stack = []
+        side = 0
+        depth = -1
+        spine = []
+
         while True:
             if node:
-                yield (node, depth)
                 depth += 1
-                stack.append((node, depth))
-                node = node.left
-            elif stack:
-                parent, depth = stack.pop()
-                node = parent.right
+
+                yield (node, NodeInfo(side=side, depth=depth))
+
+                spine.append((node, side, depth))
+
+                if reverse:
+                    side = 1
+                    node = node.right
+                else:
+                    side = -1
+                    node = node.left
+            elif spine:
+                node, _, depth = spine.pop()
+
+                if reverse:
+                    side = -1
+                    node = node.left
+                else:
+                    side = 1
+                    node = node.right
             else:
                 break
 
 
-def post_order(root):
+def post_order(root, reverse=False):
     if root:
-        stack = [(root, 1)]
+        stack = [(root, 0, 1)]
         order = []
+
         while stack:
-            node, depth = stack.pop()
-            order.append(node)
-            if node.left:
-                stack.append((node.left, depth + 1))
-            if node.right:
-                stack.append((node.right, depth + 1))
+            node, side, depth = stack.pop()
+
+            order.append((node, NodeInfo(side=side, depth=depth)))
+
+            if reverse:
+                if node.right:
+                    stack.append((node.right, 1, depth + 1))
+
+                if node.left:
+                    stack.append((node.left, -1, depth + 1))
+            else:
+                if node.left:
+                    stack.append((node.left, -1, depth + 1))
+
+                if node.right:
+                    stack.append((node.right, 1, depth + 1))
+
         while order:
             yield order.pop()
 
 
 def level_order(root):
     if root:
-        depth = 1
         count = 1
-        que = collections.deque([root])
-        while count > 0:
+        level = collections.deque([(root, 0, 0)])
+        while count:
             while count > 0:
                 count -= 1
-                node = que.popleft()
-                yield (node, depth)
+
+                node, side, depth = level.popleft()
+
+                yield (node, NodeInfo(side=side, depth=depth))
+
                 if node.left:
-                    que.append(node.left)
+                    level.append((node.left, -1, depth + 1))
+
                 if node.right:
-                    que.append(node.right)
-            count = len(que)
-            depth += 1
+                    level.append((node.right, 1, depth + 1))
+
+            count = len(level)

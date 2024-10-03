@@ -1,8 +1,7 @@
-import dsa.binary_tree.iter as iter
-import dsa.binary_tree.find as find
-import dsa.binary_tree.info as info
-
 from typing import Optional
+
+import dsa.binary_tree.iter as iter
+import dsa.binary_tree.path as path
 
 
 class BiNode:
@@ -31,27 +30,27 @@ class BiTree:
 
     def find(self, value):
         if self.root:
-            path, found = find.lookup([self.root], value)
+            spine, found = path.find([self.root], value)
 
             if found:
-                return path[-1].value
+                return spine[-1].value
 
     def __contains__(self, value):
         return bool(self.find(value))
 
     def min(self):
         if self.root:
-            path = find.min_leaf([self.root])
+            spine = path.min_leaf([self.root])
 
             if path:
-                return path[-1].value
+                return spine[-1].value
 
     def max(self):
         if self.root:
-            path = find.max_leaf([self.root])
+            spine = path.max_leaf([self.root])
 
             if path:
-                return path[-1].value
+                return spine[-1].value
 
     def left(self):
         return type(self)(self.root and self.root.left or None)
@@ -73,6 +72,6 @@ class BiTree:
 
     def __str__(self):
         str = ""
-        for node, depth in iter.pre_order(self.root):
-            str = str + ("  " * depth) + node.__str__() + "\n"
+        for node, info in iter.pre_order(self.root):
+            str = str + ("  " * info.depth) + node.__str__() + "\n"
         return str

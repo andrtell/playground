@@ -1,8 +1,10 @@
 import math
+
 from hypothesis import given, strategies as st
 
 import dsa.util as util
-import dsa.binary_tree.info as info
+import dsa.binary_tree.query as query
+
 from dsa.binary_tree import AVLTree, avltree
 
 
@@ -51,10 +53,10 @@ def test_is_balanced_tree(size, seed):
     t = AVLTree()
     for v in s:
         t.insert(v)
-        assert abs(info.balance(t.root)) < 2
+        assert abs(query.balance(t.root)) < 2
     for v in s:
         t.delete(v)
-        assert abs(info.balance(t.root)) < 2
+        assert abs(query.balance(t.root)) < 2
 
 
 @given(st.integers(1, 30), st.integers(1, 10000))
@@ -65,9 +67,9 @@ def test_height_property(size, seed):
     b = math.log2(5) / (2 * math.log2(phi))
     for v in s:
         t.insert(v)
-        h = info.height(t.root)
+        h = query.height(t.root) + 1
         assert math.log2(t.size + 1) <= h and h < math.log(t.size + 2, phi) + b
     for v in s:
         t.delete(v)
-        h = info.height(t.root)
+        h = query.height(t.root) + 1
         assert math.log2(t.size + 1) <= h and h < math.log(t.size + 2, phi) + b

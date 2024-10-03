@@ -1,4 +1,4 @@
-import dsa.binary_tree.vary as vary
+import dsa.binary_tree.modify as modify
 
 from dsa.binary_tree.bi_tree import BiTree, BiNode
 
@@ -23,17 +23,17 @@ class AVLTree(BiTree):
             self.size = 1
             return
 
-        path, changed = vary.insert([self.root], AVLNode(value))
+        spine, changed = modify.insert([self.root], AVLNode(value))
 
         if not changed:
             return
 
         self.size += 1
 
-        c = path.pop()
+        c = spine.pop()
 
-        while path:
-            p = path.pop()
+        while spine:
+            p = spine.pop()
 
             if p.right is c:
                 if p.bf < 0:
@@ -64,8 +64,8 @@ class AVLTree(BiTree):
                 else:
                     n = rotate_right(p)
 
-            if path:
-                pp = path[-1]
+            if spine:
+                pp = spine[-1]
                 if pp.left is p:
                     pp.left = n
                 else:
@@ -79,21 +79,21 @@ class AVLTree(BiTree):
         if not self.root:
             return
 
-        path, new_child, changed = vary.delete([self.root], value)
+        spine, new_child, changed = modify.delete([self.root], value)
 
         if not changed:
             return
 
         self.size -= 1
 
-        if not path:
+        if not spine:
             self.root = new_child
             return
 
         c = new_child
 
-        while path:
-            p = path.pop()
+        while spine:
+            p = spine.pop()
 
             if not (p.left or p.right):
                 c = p
@@ -135,8 +135,8 @@ class AVLTree(BiTree):
 
             c = n
 
-            if path:
-                pp = path[-1]
+            if spine:
+                pp = spine[-1]
                 if pp.left is p:
                     pp.left = n
                 else:
