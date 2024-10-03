@@ -1,4 +1,4 @@
-import dsa.binary_tree.alter as alter
+from dsa.binary_tree.spine import Spine
 
 from dsa.binary_tree.bi_tree import BiTree, BiNode
 
@@ -17,8 +17,8 @@ class BSNode(BiNode):
 class BSTree(BiTree):
     def insert(self, value):
         if self.root:
-            _, changed = alter.insert([self.root], BSNode(value))
-
+            spine = Spine(self.root)
+            changed = spine.insert(BSNode(value))
             if changed:
                 self.size += 1
         else:
@@ -27,10 +27,11 @@ class BSTree(BiTree):
 
     def delete(self, value):
         if self.root:
-            spine, new_child, changed = alter.delete([self.root], value)
-
-            if not changed:
-                return
-
-            self.root = spine and spine[0] or new_child
-            self.size -= 1
+            spine = Spine(self.root)
+            changed, new_child = spine.delete(value)
+            if changed:
+                self.size -= 1
+                if spine:
+                    self.root = spine.first()
+                else:
+                    self.root = new_child

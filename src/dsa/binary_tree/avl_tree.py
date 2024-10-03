@@ -1,4 +1,4 @@
-import dsa.binary_tree.alter as alter
+from dsa.binary_tree.spine import Spine
 
 from dsa.binary_tree.bi_tree import BiTree, BiNode
 
@@ -23,7 +23,9 @@ class AVLTree(BiTree):
             self.size = 1
             return
 
-        spine, changed = alter.insert([self.root], AVLNode(value))
+        spine = Spine(self.root)
+
+        changed = spine.insert(AVLNode(value))
 
         if not changed:
             return
@@ -65,7 +67,8 @@ class AVLTree(BiTree):
                     n = rotate_right(p)
 
             if spine:
-                pp = spine[-1]
+                pp = spine.peek()
+
                 if pp.left is p:
                     pp.left = n
                 else:
@@ -79,7 +82,9 @@ class AVLTree(BiTree):
         if not self.root:
             return
 
-        spine, new_child, changed = alter.delete([self.root], value)
+        spine = Spine(self.root)
+
+        changed, new_child = spine.delete(value)
 
         if not changed:
             return
@@ -136,7 +141,8 @@ class AVLTree(BiTree):
             c = n
 
             if spine:
-                pp = spine[-1]
+                pp = spine.peek()
+
                 if pp.left is p:
                     pp.left = n
                 else:
