@@ -1,4 +1,4 @@
-import dsa.binary_tree.modify as modify
+import dsa.binary_tree.alter as alter
 
 from dsa.binary_tree.bi_tree import BiTree, BiNode
 
@@ -23,7 +23,7 @@ class AVLTree(BiTree):
             self.size = 1
             return
 
-        spine, changed = modify.insert([self.root], AVLNode(value))
+        spine, changed = alter.insert([self.root], AVLNode(value))
 
         if not changed:
             return
@@ -79,7 +79,7 @@ class AVLTree(BiTree):
         if not self.root:
             return
 
-        spine, new_child, changed = modify.delete([self.root], value)
+        spine, new_child, changed = alter.delete([self.root], value)
 
         if not changed:
             return

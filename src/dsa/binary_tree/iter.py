@@ -1,7 +1,21 @@
 import collections
-import dataclasses
+from dataclasses import dataclass
 
-from dsa.binary_tree.node_info import NodeInfo
+
+@dataclass
+class NodeInfo:
+    side: int
+    depth: int
+
+    def is_root(self):
+        return self.side == 0
+
+    def is_left(self):
+        return self.side == -1
+
+    def is_right(self):
+        return self.side == 1
+
 
 def in_order(root, reverse=False):
     if root:
