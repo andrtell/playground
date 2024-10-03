@@ -17,8 +17,12 @@ class NodeInfo:
         return self.side == 1
 
 
-def in_order(root, reverse=False):
-    if root:
+class Iter:
+    @classmethod
+    def in_order(cls, root, reverse=False):
+        if not root:
+            return
+
         node = root
         side = 0
         depth = -1
@@ -50,9 +54,11 @@ def in_order(root, reverse=False):
             else:
                 break
 
+    @classmethod
+    def pre_order(cls, root, reverse=False):
+        if not root:
+            return
 
-def pre_order(root, reverse=False):
-    if root:
         node = root
         side = 0
         depth = -1
@@ -84,16 +90,18 @@ def pre_order(root, reverse=False):
             else:
                 break
 
+    @classmethod
+    def post_order(cls, root, reverse=False):
+        if not root:
+            return
 
-def post_order(root, reverse=False):
-    if root:
         stack = [(root, 0, 1)]
-        order = []
+        nodes = []
 
         while stack:
             node, side, depth = stack.pop()
 
-            order.append((node, NodeInfo(side=side, depth=depth)))
+            nodes.append((node, NodeInfo(side=side, depth=depth)))
 
             if reverse:
                 if node.right:
@@ -108,26 +116,29 @@ def post_order(root, reverse=False):
                 if node.right:
                     stack.append((node.right, 1, depth + 1))
 
-        while order:
-            yield order.pop()
+        while nodes:
+            yield nodes.pop()
 
+    @classmethod
+    def level_order(cls, root):
+        if not root:
+            return
 
-def level_order(root):
-    if root:
         count = 1
-        level = collections.deque([(root, 0, 0)])
+        nodes = collections.deque([(root, 0, 0)])
+
         while count:
             while count > 0:
                 count -= 1
 
-                node, side, depth = level.popleft()
+                node, side, depth = nodes.popleft()
 
                 yield (node, NodeInfo(side=side, depth=depth))
 
                 if node.left:
-                    level.append((node.left, -1, depth + 1))
+                    nodes.append((node.left, -1, depth + 1))
 
                 if node.right:
-                    level.append((node.right, 1, depth + 1))
+                    nodes.append((node.right, 1, depth + 1))
 
-            count = len(level)
+            count = len(nodes)

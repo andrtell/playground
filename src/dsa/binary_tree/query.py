@@ -1,9 +1,9 @@
-import dsa.binary_tree.iter as iter
+from dsa.binary_tree.iter import Iter
 
 
 def height(node):
     height = 0
-    for _, info in iter.pre_order(node):
+    for _, info in Iter.pre_order(node):
         height = max(height, info.depth)
     return height
 

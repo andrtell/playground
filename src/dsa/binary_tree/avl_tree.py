@@ -1,6 +1,5 @@
-from dsa.binary_tree.spine import Spine
-
 from dsa.binary_tree.bi_tree import BiTree, BiNode
+from dsa.binary_tree.bs_tree import BSOp
 
 
 def avltree(iter):
@@ -23,19 +22,17 @@ class AVLTree(BiTree):
             self.size = 1
             return
 
-        spine = Spine(self.root)
+        inserted, path = BSOp.insert(self.root, AVLNode(value))
 
-        changed = spine.insert(AVLNode(value))
-
-        if not changed:
+        if not inserted:
             return
 
         self.size += 1
 
-        c = spine.pop()
+        c = path.pop()
 
-        while spine:
-            p = spine.pop()
+        while path:
+            p = path.pop()
 
             if p.right is c:
                 if p.bf < 0:
@@ -66,8 +63,8 @@ class AVLTree(BiTree):
                 else:
                     n = rotate_right(p)
 
-            if spine:
-                pp = spine.peek()
+            if path:
+                pp = path[-1]
 
                 if pp.left is p:
                     pp.left = n
@@ -82,23 +79,21 @@ class AVLTree(BiTree):
         if not self.root:
             return
 
-        spine = Spine(self.root)
+        deleted, path, new_child = BSOp.delete(self.root, value)
 
-        changed, new_child = spine.delete(value)
-
-        if not changed:
+        if not deleted:
             return
 
         self.size -= 1
 
-        if not spine:
+        if not path:
             self.root = new_child
             return
 
         c = new_child
 
-        while spine:
-            p = spine.pop()
+        while path:
+            p = path.pop()
 
             if not (p.left or p.right):
                 c = p
@@ -140,8 +135,8 @@ class AVLTree(BiTree):
 
             c = n
 
-            if spine:
-                pp = spine.peek()
+            if path:
+                pp = path[-1]
 
                 if pp.left is p:
                     pp.left = n
