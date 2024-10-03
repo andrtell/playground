@@ -1,6 +1,6 @@
 from dsa.binary_tree.path import Path
 
-from dsa.binary_tree.bi_tree import BiTree, BiNode
+from dsa.binary_tree.tree import Tree, Node
 
 
 def bstree(iter):
@@ -10,18 +10,14 @@ def bstree(iter):
     return tree
 
 
-class BSNode(BiNode):
-    pass
-
-
-class BSTree(BiTree):
+class BSTree(Tree):
     def insert(self, value):
         if self.root:
-            inserted, _ = BSOp.insert(self.root, BSNode(value))
+            inserted, _ = BSOp.insert(self.root, Node(value))
             if inserted:
                 self.size += 1
         else:
-            self.root = BSNode(value)
+            self.root = Node(value)
             self.size = 1
 
     def delete(self, value):

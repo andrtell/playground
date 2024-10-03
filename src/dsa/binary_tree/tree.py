@@ -3,11 +3,11 @@ from dsa.binary_tree.iter import Iter
 from dsa.binary_tree.path import Path
 
 
-class BiNode:
+class Node:
     def __init__(self, value):
         self.value = value
-        self.left: Optional[BiNode] = None
-        self.right: Optional[BiNode] = None
+        self.left: Optional[Node] = None
+        self.right: Optional[Node] = None
 
     def __repr__(self):
         return f"Node({self.value})"
@@ -16,7 +16,7 @@ class BiNode:
         return self.__repr__()
 
 
-class BiTree:
+class Tree:
     def __init__(self, root=None):
         self.root = root
         self.size = 0

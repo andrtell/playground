@@ -1,4 +1,4 @@
-from dsa.binary_tree.bi_tree import BiTree, BiNode
+from dsa.binary_tree.tree import Tree, Node
 from dsa.binary_tree.bs_tree import BSOp
 
 
@@ -9,13 +9,13 @@ def avltree(iter):
     return tree
 
 
-class AVLNode(BiNode):
+class AVLNode(Node):
     def __init__(self, value):
         super().__init__(value)
         self.bf = 0
 
 
-class AVLTree(BiTree):
+class AVLTree(Tree):
     def insert(self, value):
         if not self.root:
             self.root = AVLNode(value)
