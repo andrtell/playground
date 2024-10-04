@@ -1,9 +1,5 @@
-import math
-
 from hypothesis import given, strategies as st
-
 import dsa.util as util
-
 from dsa.binary_tree.query import Query
 from dsa.binary_tree import AVLTree, avltree
 

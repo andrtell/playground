@@ -1,5 +1,4 @@
 from dsa.binary_tree.path import Path
-
 from dsa.binary_tree.tree import Tree, Node
 
 

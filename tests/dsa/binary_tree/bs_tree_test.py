@@ -1,5 +1,4 @@
 from hypothesis import given, strategies as st
-
 import dsa.util as util
 from dsa.binary_tree import BSTree, bstree
 
