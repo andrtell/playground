@@ -15,6 +15,75 @@ class AVLNode(Node):
         self.bf = 0
 
 
+    @classmethod
+    def rotate_left(cls, p):
+        c = p.right
+        p.right = c.left
+        c.left = p
+        if c.bf == 0:
+            p.bf = 1
+            c.bf = -1
+        else:
+            p.bf = 0
+            c.bf = 0
+        return c
+
+    @classmethod
+    def rotate_right(cls, p):
+        c = p.left
+        p.left = c.right
+        c.right = p
+        if c.bf == 0:
+            p.bf = -1
+            c.bf = 1
+        else:
+            p.bf = 0
+            c.bf = 0
+        return c
+
+
+    @classmethod
+    def rotate_right_left(cls, p):
+        c = p.right
+        le = c.left
+        c.left = le.right
+        le.right = c
+        p.right = le.left
+        le.left = p
+        if le.bf == 0:
+            p.bf = 0
+            c.bf = 0
+        elif le.bf > 0:
+            p.bf = -1
+            c.bf = 0
+        else:
+            p.bf = 0
+            c.bf = 1
+        le.bf = 0
+        return le
+
+
+    @classmethod
+    def rotate_left_right(cls, p):
+        c = p.left
+        ri = c.right
+        c.right = ri.left
+        ri.left = c
+        p.left = ri.right
+        ri.right = p
+        if ri.bf == 0:
+            p.bf = 0
+            c.bf = 0
+        elif ri.bf < 0:
+            p.bf = 1
+            c.bf = 0
+        else:
+            p.bf = 0
+            c.bf = -1
+        ri.bf = 0
+        return ri
+
+
 class AVLTree(Tree):
     def insert(self, value):
         if not self.root:
@@ -45,9 +114,9 @@ class AVLTree(Tree):
                     continue
 
                 if c.bf < 0:
-                    n = rotate_right_left(p)
+                    n = AVLNode.rotate_right_left(p)
                 else:
-                    n = rotate_left(p)
+                    n = AVLNode.rotate_left(p)
             else:
                 if p.bf > 0:
                     p.bf = 0
@@ -59,9 +128,9 @@ class AVLTree(Tree):
                     continue
 
                 if c.bf > 0:
-                    n = rotate_left_right(p)
+                    n = AVLNode.rotate_left_right(p)
                 else:
-                    n = rotate_right(p)
+                    n = AVLNode.rotate_right(p)
 
             if path:
                 pp = path[-1]
@@ -113,9 +182,9 @@ class AVLTree(Tree):
                 bf = p.right.bf
 
                 if bf < 0:
-                    n = rotate_right_left(p)
+                    n = AVLNode.rotate_right_left(p)
                 else:
-                    n = rotate_left(p)
+                    n = AVLNode.rotate_left(p)
             else:
                 if p.bf > 0:
                     c = p
@@ -129,9 +198,9 @@ class AVLTree(Tree):
                 bf = p.left.bf
 
                 if bf > 0:
-                    n = rotate_left_right(p)
+                    n = AVLNode.rotate_left_right(p)
                 else:
-                    n = rotate_right(p)
+                    n = AVLNode.rotate_right(p)
 
             c = n
 
@@ -148,71 +217,3 @@ class AVLTree(Tree):
             if bf == 0:
                 break
 
-
-# ----- ROTATE -------
-
-
-def rotate_left(p):
-    c = p.right
-    p.right = c.left
-    c.left = p
-    if c.bf == 0:
-        p.bf = 1
-        c.bf = -1
-    else:
-        p.bf = 0
-        c.bf = 0
-    return c
-
-
-def rotate_right(p):
-    c = p.left
-    p.left = c.right
-    c.right = p
-    if c.bf == 0:
-        p.bf = -1
-        c.bf = 1
-    else:
-        p.bf = 0
-        c.bf = 0
-    return c
-
-
-def rotate_right_left(p):
-    c = p.right
-    le = c.left
-    c.left = le.right
-    le.right = c
-    p.right = le.left
-    le.left = p
-    if le.bf == 0:
-        p.bf = 0
-        c.bf = 0
-    elif le.bf > 0:
-        p.bf = -1
-        c.bf = 0
-    else:
-        p.bf = 0
-        c.bf = 1
-    le.bf = 0
-    return le
-
-
-def rotate_left_right(p):
-    c = p.left
-    ri = c.right
-    c.right = ri.left
-    ri.left = c
-    p.left = ri.right
-    ri.right = p
-    if ri.bf == 0:
-        p.bf = 0
-        c.bf = 0
-    elif ri.bf < 0:
-        p.bf = 1
-        c.bf = 0
-    else:
-        p.bf = 0
-        c.bf = -1
-    ri.bf = 0
-    return ri
