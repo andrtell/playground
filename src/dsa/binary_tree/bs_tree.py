@@ -30,6 +30,7 @@ class BSTree(Tree):
                 else:
                     self.root = new_child
 
+
 class BSOp:
     @classmethod
     def insert(cls, root, node):

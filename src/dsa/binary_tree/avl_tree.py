@@ -14,7 +14,6 @@ class AVLNode(Node):
         super().__init__(value)
         self.bf = 0
 
-
     @classmethod
     def rotate_left(cls, p):
         c = p.right
@@ -41,7 +40,6 @@ class AVLNode(Node):
             c.bf = 0
         return c
 
-
     @classmethod
     def rotate_right_left(cls, p):
         c = p.right
@@ -61,7 +59,6 @@ class AVLNode(Node):
             c.bf = 1
         le.bf = 0
         return le
-
 
     @classmethod
     def rotate_left_right(cls, p):
@@ -216,4 +213,3 @@ class AVLTree(Tree):
 
             if bf == 0:
                 break
-

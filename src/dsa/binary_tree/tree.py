@@ -49,6 +49,9 @@ class Tree:
     def __len__(self):
         return self.size
 
+    def __bool__(self):
+        return self.size > 0
+
     def __iter__(self):
         return (node.value for node, _ in Iter.in_order(self.root))
 
