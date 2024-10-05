@@ -19,105 +19,78 @@ class NodeInfo:
 
 class Iter:
     @classmethod
-    def in_order(cls, root, reverse=False):
+    def pre_order(cls, root):
         if not root:
             return
 
-        node = root
-        side = 0
-        depth = -1
-        spine = []
+        cur = root
+        his = []
+        pth = []
 
         while True:
-            if node:
-                depth += 1
-
-                spine.append((node, side, depth))
-
-                if reverse:
-                    side = 1
-                    node = node.right
-                else:
-                    side = -1
-                    node = node.left
-            elif spine:
-                node, side, depth = spine.pop()
-
-                yield node, NodeInfo(side=side, depth=depth)
-
-                if reverse:
-                    side = -1
-                    node = node.left
-                else:
-                    side = 1
-                    node = node.right
+            if cur:
+                yield cur, pth
+                his.append(cur)
+                pth.append(cur)
+                cur = cur.left
+            elif his:
+                par = his.pop()
+                cur = par.right
+                while pth and par is not pth[-1]:
+                    pth.pop()
             else:
                 break
 
     @classmethod
-    def pre_order(cls, root, reverse=False):
+    def in_order(cls, root):
         if not root:
             return
 
-        node = root
-        side = 0
-        depth = -1
-        spine = []
+        cur = root
+        his = []
+        pth = []
 
         while True:
-            if node:
-                depth += 1
-
-                yield (node, NodeInfo(side=side, depth=depth))
-
-                spine.append((node, side, depth))
-
-                if reverse:
-                    side = 1
-                    node = node.right
-                else:
-                    side = -1
-                    node = node.left
-            elif spine:
-                node, _, depth = spine.pop()
-
-                if reverse:
-                    side = -1
-                    node = node.left
-                else:
-                    side = 1
-                    node = node.right
+            if cur:
+                his.append(cur)
+                pth.append(cur)
+                cur = cur.left
+            elif his:
+                par = his.pop()
+                cur = par.right
+                while pth and pth[-1] is not par:
+                    pth.pop()
+                if pth:
+                    pth.pop()
+                yield par, pth
+                pth.append(par)
             else:
                 break
 
     @classmethod
-    def post_order(cls, root, reverse=False):
+    def post_order(cls, root):
         if not root:
             return
 
-        stack = [(root, 0, 1)]
-        nodes = []
+        cur = root
+        his = []
+        pth = []
 
-        while stack:
-            node, side, depth = stack.pop()
-
-            nodes.append((node, NodeInfo(side=side, depth=depth)))
-
-            if reverse:
-                if node.right:
-                    stack.append((node.right, 1, depth + 1))
-
-                if node.left:
-                    stack.append((node.left, -1, depth + 1))
+        while True:
+            if cur:
+                his.append(cur)
+                pth.append(cur)
+                cur = cur.left
+            elif his:
+                par = his.pop()
+                cur = par.right
+                while pth and pth[-1] is not par:
+                    yield pth.pop(), pth
             else:
-                if node.left:
-                    stack.append((node.left, -1, depth + 1))
+                break
 
-                if node.right:
-                    stack.append((node.right, 1, depth + 1))
-
-        while nodes:
-            yield nodes.pop()
+        while pth:
+            yield pth.pop(), pth
 
     @classmethod
     def level_order(cls, root):
