@@ -1,20 +1,4 @@
 import collections
-from dataclasses import dataclass
-
-
-@dataclass
-class NodeInfo:
-    side: int
-    depth: int
-
-    def is_root(self):
-        return self.side == 0
-
-    def is_left(self):
-        return self.side == -1
-
-    def is_right(self):
-        return self.side == 1
 
 
 class Iter:
@@ -22,11 +6,9 @@ class Iter:
     def pre_order(cls, root):
         if not root:
             return
-
         cur = root
         his = []
         pth = []
-
         while True:
             if cur:
                 yield cur, pth
@@ -45,11 +27,9 @@ class Iter:
     def in_order(cls, root):
         if not root:
             return
-
         cur = root
         his = []
         pth = []
-
         while True:
             if cur:
                 his.append(cur)
@@ -71,11 +51,9 @@ class Iter:
     def post_order(cls, root):
         if not root:
             return
-
         cur = root
         his = []
         pth = []
-
         while True:
             if cur:
                 his.append(cur)
@@ -88,7 +66,6 @@ class Iter:
                     yield pth.pop(), pth
             else:
                 break
-
         while pth:
             yield pth.pop(), pth
 
@@ -96,22 +73,15 @@ class Iter:
     def level_order(cls, root):
         if not root:
             return
-
-        count = 1
-        nodes = collections.deque([(root, 0, 0)])
-
-        while count:
-            while count > 0:
-                count -= 1
-
-                node, side, depth = nodes.popleft()
-
-                yield (node, NodeInfo(side=side, depth=depth))
-
+        cnt = 1
+        que = collections.deque([root])
+        while cnt:
+            while cnt > 0:
+                cnt -= 1
+                node = que.popleft()
+                yield node
                 if node.left:
-                    nodes.append((node.left, -1, depth + 1))
-
+                    que.append(node.left)
                 if node.right:
-                    nodes.append((node.right, 1, depth + 1))
-
-            count = len(nodes)
+                    que.append(node.right)
+            cnt = len(que)

@@ -5,8 +5,8 @@ class Query:
     @classmethod
     def height(cls, node):
         height = 0
-        for _, info in Iter.pre_order(node):
-            height = max(height, info.depth)
+        for _, path in Iter.pre_order(node):
+            height = max(height, len(path))
         return height
 
     @classmethod
