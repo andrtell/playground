@@ -68,7 +68,6 @@ class Iter:
             yield path
             path.pop()
 
-
     # TODO: path
     @classmethod
     def level_order(cls, root):

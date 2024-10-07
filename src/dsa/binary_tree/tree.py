@@ -64,6 +64,6 @@ class Tree:
 
     def __str__(self):
         if self.root:
-            return Format.horizontal(self.root)
+            return "\n".join(list(Format.horizontal_2(self.root)))
         else:
             return ""
