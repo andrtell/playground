@@ -7,18 +7,18 @@ class Iter:
         if not root:
             return
         cur = root
-        his = []
+        stk = []
         pth = []
         while True:
             if cur:
                 yield cur, pth
-                his.append(cur)
+                stk.append(cur)
                 pth.append(cur)
                 cur = cur.left
-            elif his:
-                par = his.pop()
+            elif stk:
+                par = stk.pop()
                 cur = par.right
-                while pth and par is not pth[-1]:
+                while pth[-1] is not par:
                     pth.pop()
             else:
                 break
@@ -28,15 +28,15 @@ class Iter:
         if not root:
             return
         cur = root
-        his = []
+        stk = []
         pth = []
         while True:
             if cur:
-                his.append(cur)
+                stk.append(cur)
                 pth.append(cur)
                 cur = cur.left
-            elif his:
-                par = his.pop()
+            elif stk:
+                par = stk.pop()
                 cur = par.right
                 while pth and pth[-1] is not par:
                     pth.pop()
@@ -52,15 +52,15 @@ class Iter:
         if not root:
             return
         cur = root
-        his = []
+        stk = []
         pth = []
         while True:
             if cur:
-                his.append(cur)
+                stk.append(cur)
                 pth.append(cur)
                 cur = cur.left
-            elif his:
-                par = his.pop()
+            elif stk:
+                par = stk.pop()
                 cur = par.right
                 while pth and pth[-1] is not par:
                     yield pth.pop(), pth
@@ -69,6 +69,8 @@ class Iter:
         while pth:
             yield pth.pop(), pth
 
+
+    # TODO: path
     @classmethod
     def level_order(cls, root):
         if not root:
