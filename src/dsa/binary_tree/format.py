@@ -3,27 +3,30 @@ from dsa.binary_tree.iter import Iter
 
 class Format:
     @classmethod
-    def horizontal(cls, tree):
+    def horizontal(cls, root):
         lines = []
-        for node, path in Iter.pre_order(tree.root):
-            ans = ""
-            for j in range(0, len(path) - 1):
-                s = ""
-                p0 = path[j]
-                p1 = path[j + 1]
-                if p0.left is p1 and p0.right:
-                    s = "│   "
-                else:
-                    s = "    "
-                ans += s
-            if path:
-                if path[-1].left is node:
-                    if path[-1].right:
-                        ans += "├── "
+        for path in Iter.pre_order(root):
+            end = ["", str(path[-1].value)]
+
+            if len(path) > 1:
+                if path[-2].left is path[-1]: 
+                    if path[-2].right:
+                        end[0] = "├── "
                     else:
-                        ans += "└── "
+                        end[0] = "└── "
                 else:
-                    ans += "└── "
-            ans += str(node.value)
-            lines.append(ans)
+                    end[0] = "╘══ "
+
+            buff = []
+
+            for j in range(1, len(path) - 1):
+                if path[j - 1].left is path[j] and path[j - 1].right:
+                    buff.append("│   ")
+                else:
+                    buff.append("    ")
+
+            buff.extend(end)
+
+            lines.append("".join(buff))
+            
         return "\n".join(lines)

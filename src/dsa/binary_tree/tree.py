@@ -1,6 +1,7 @@
 from typing import Optional
 from dsa.binary_tree.iter import Iter
 from dsa.binary_tree.path import Path
+from dsa.binary_tree.format import Format
 
 
 class Node:
@@ -62,7 +63,7 @@ class Tree:
         return "Tree()"
 
     def __str__(self):
-        str = ""
-        for node, info in Iter.pre_order(self.root):
-            str = str + ("  " * info.depth) + node.__str__() + "\n"
-        return str
+        if self.root:
+            return Format.horizontal(self.root)
+        else:
+            return ""

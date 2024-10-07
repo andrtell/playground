@@ -8,18 +8,18 @@ class Iter:
             return
         cur = root
         stk = []
-        pth = []
+        path = []
         while True:
             if cur:
-                yield cur, pth
                 stk.append(cur)
-                pth.append(cur)
+                path.append(cur)
+                yield path
                 cur = cur.left
             elif stk:
                 par = stk.pop()
                 cur = par.right
-                while pth[-1] is not par:
-                    pth.pop()
+                while path[-1] is not par:
+                    path.pop()
             else:
                 break
 
@@ -29,21 +29,18 @@ class Iter:
             return
         cur = root
         stk = []
-        pth = []
+        path = []
         while True:
             if cur:
                 stk.append(cur)
-                pth.append(cur)
+                path.append(cur)
                 cur = cur.left
             elif stk:
                 par = stk.pop()
                 cur = par.right
-                while pth and pth[-1] is not par:
-                    pth.pop()
-                if pth:
-                    pth.pop()
-                yield par, pth
-                pth.append(par)
+                while path and path[-1] is not par:
+                    path.pop()
+                yield path
             else:
                 break
 
@@ -53,21 +50,23 @@ class Iter:
             return
         cur = root
         stk = []
-        pth = []
+        path = []
         while True:
             if cur:
                 stk.append(cur)
-                pth.append(cur)
+                path.append(cur)
                 cur = cur.left
             elif stk:
                 par = stk.pop()
                 cur = par.right
-                while pth and pth[-1] is not par:
-                    yield pth.pop(), pth
+                while path and path[-1] is not par:
+                    yield path
+                    path.pop()
             else:
                 break
-        while pth:
-            yield pth.pop(), pth
+        while path:
+            yield path
+            path.pop()
 
 
     # TODO: path
