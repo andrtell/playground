@@ -11,10 +11,10 @@ class Node:
         self.right: Optional[Node] = right
 
     def __repr__(self):
-        return f"Node({self.value})"
+        return f"Node(value={repr(self.value)}, left={repr(self.left)}, right={repr(self.right)})"
 
     def __str__(self):
-        return self.__repr__()
+        return "\n".join(list(Format.horizontal_2(self)))
 
 
 class Tree:
@@ -58,12 +58,12 @@ class Tree:
 
     def __repr__(self):
         if self.root:
-            return f"Tree({self.root})"
+            return f"Tree({repr(self.root)})"
 
         return "Tree()"
 
     def __str__(self):
         if self.root:
-            return "\n".join(list(Format.horizontal_2(self.root)))
+            return str(self.root)
         else:
             return ""
