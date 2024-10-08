@@ -43,7 +43,7 @@ class Path:
     @classmethod
     def max_leaf(cls, root):
         if not root:
-            raise Exception("Can't call min_leaf if root is None.")
+            raise Exception("Can't call max_leaf if root is None.")
 
         path = [root]
 
@@ -59,20 +59,20 @@ class Path:
     @classmethod
     def next(cls, path):
         if not path:
-            raise Exception("Can't call next if path is Empty.")
+            raise Exception("Can't call next if path is [].")
 
-        child = path[-1]
+        chi = path[-1]
 
-        if child.right:
-            path.extend(Path.min_leaf(child.right))
+        if chi.right:
+            path.extend(Path.min_leaf(chi.right))
             return True, path
 
         path.pop()
 
         while path:
-            parent = path[-1]
-            if child is parent.right:
-                child = path.pop()
+            par = path[-1]
+            if chi is par.right:
+                chi = path.pop()
             else:
                 break
 
@@ -81,20 +81,20 @@ class Path:
     @classmethod
     def previous(cls, path):
         if not path:
-            raise Exception("Can't call previous if path is Empty.")
+            raise Exception("Can't call previous if path is [].")
 
-        child = path[-1]
+        chi = path[-1]
 
-        if child.left:
-            path.extend(Path.max_leaf(child.left))
+        if chi.left:
+            path.extend(Path.max_leaf(chi.left))
             return True, path
 
         path.pop()
 
         while path:
-            parent = path[-1]
-            if child is parent.left:
-                child = path.pop()
+            par = path[-1]
+            if chi is par.left:
+                chi = path.pop()
             else:
                 break
 

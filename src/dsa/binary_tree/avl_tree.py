@@ -15,70 +15,80 @@ class AVLNode(Node):
         self.bf = 0
 
     @classmethod
-    def rotate_left(cls, p):
-        c = p.right
-        p.right = c.left
-        c.left = p
-        if c.bf == 0:
-            p.bf = 1
-            c.bf = -1
+    def rotate_left(cls, par):
+        chi = par.right
+        par.right = chi.left
+        chi.left = par
+
+        if chi.bf == 0:
+            par.bf = 1
+            chi.bf = -1
         else:
-            p.bf = 0
-            c.bf = 0
-        return c
+            par.bf = 0
+            chi.bf = 0
+
+        return chi
 
     @classmethod
-    def rotate_right(cls, p):
-        c = p.left
-        p.left = c.right
-        c.right = p
-        if c.bf == 0:
-            p.bf = -1
-            c.bf = 1
+    def rotate_right(cls, par):
+        chi = par.left
+        par.left = chi.right
+        chi.right = par
+
+        if chi.bf == 0:
+            par.bf = -1
+            chi.bf = 1
         else:
-            p.bf = 0
-            c.bf = 0
-        return c
+            par.bf = 0
+            chi.bf = 0
+
+        return chi
 
     @classmethod
-    def rotate_right_left(cls, p):
-        c = p.right
-        le = c.left
-        c.left = le.right
-        le.right = c
-        p.right = le.left
-        le.left = p
-        if le.bf == 0:
-            p.bf = 0
-            c.bf = 0
-        elif le.bf > 0:
-            p.bf = -1
-            c.bf = 0
+    def rotate_right_left(cls, par):
+        chi = par.right
+        lef = chi.left
+        chi.left = lef.right
+        lef.right = chi
+        par.right = lef.left
+        lef.left = par
+
+        if lef.bf == 0:
+            par.bf = 0
+            chi.bf = 0
+        elif lef.bf > 0:
+            par.bf = -1
+            chi.bf = 0
         else:
-            p.bf = 0
-            c.bf = 1
-        le.bf = 0
-        return le
+            par.bf = 0
+            chi.bf = 1
+
+        lef.bf = 0
+
+        return lef
 
     @classmethod
-    def rotate_left_right(cls, p):
-        c = p.left
-        ri = c.right
-        c.right = ri.left
-        ri.left = c
-        p.left = ri.right
-        ri.right = p
-        if ri.bf == 0:
-            p.bf = 0
-            c.bf = 0
-        elif ri.bf < 0:
-            p.bf = 1
-            c.bf = 0
+    def rotate_left_right(cls, par):
+        chi = par.left
+        rig = chi.right
+        chi.right = rig.left
+        rig.left = chi
+        par.left = rig.right
+        rig.right = par
+
+        if rig.bf == 0:
+            par.bf = 0
+            chi.bf = 0
+        elif rig.bf < 0:
+            par.bf = 1
+            chi.bf = 0
         else:
-            p.bf = 0
-            c.bf = -1
-        ri.bf = 0
-        return ri
+            par.bf = 0
+            chi.bf = -1
+
+        rig.bf = 0
+
+        return rig
 
 
 class AVLTree(Tree):
@@ -88,9 +98,9 @@ class AVLTree(Tree):
             self.size = 1
             return
 
-        inserted, path = BSOp.insert(self.root, AVLNode(value))
+        did_insert, path = BSOp.insert(self.root, AVLNode(value))
 
-        if not inserted:
+        if not did_insert:
             return
 
         self.size += 1
@@ -98,46 +108,44 @@ class AVLTree(Tree):
         chi = path.pop()
 
         while path:
-            p = path.pop()
+            par = path.pop()
 
-            if p.right is chi:
-                if p.bf < 0:
-                    p.bf = 0
+            if par.right is chi:
+                if par.bf < 0:
+                    par.bf = 0
                     break
 
-                if p.bf == 0:
-                    p.bf = 1
-                    chi = p
+                if par.bf == 0:
+                    par.bf = 1
+                    chi = par
                     continue
 
                 if chi.bf < 0:
-                    n = AVLNode.rotate_right_left(p)
+                    new_par = AVLNode.rotate_right_left(par)
                 else:
-                    n = AVLNode.rotate_left(p)
+                    new_par = AVLNode.rotate_left(par)
             else:
-                if p.bf > 0:
-                    p.bf = 0
+                if par.bf > 0:
+                    par.bf = 0
                     break
 
-                if p.bf == 0:
-                    p.bf = -1
-                    chi = p
+                if par.bf == 0:
+                    par.bf = -1
+                    chi = par
                     continue
 
                 if chi.bf > 0:
-                    n = AVLNode.rotate_left_right(p)
+                    new_par = AVLNode.rotate_left_right(par)
                 else:
-                    n = AVLNode.rotate_right(p)
+                    new_par = AVLNode.rotate_right(par)
 
             if path:
-                pp = path[-1]
-
-                if pp.left is p:
-                    pp.left = n
+                if path[-1].left is par:
+                    path[-1].left = new_par
                 else:
-                    pp.right = n
+                    path[-1].right = new_par
             else:
-                self.root = n
+                self.root = new_par
 
             break
 
@@ -145,71 +153,69 @@ class AVLTree(Tree):
         if not self.root:
             return
 
-        deleted, path, new_child = BSOp.delete(self.root, value)
+        did_delete, path, new_chi = BSOp.delete(self.root, value)
 
-        if not deleted:
+        if not did_delete:
             return
 
         self.size -= 1
 
         if not path:
-            self.root = new_child
+            self.root = new_chi
             return
 
-        chi = new_child
+        chi = new_chi
 
         while path:
-            p = path.pop()
+            par = path.pop()
 
-            if not (p.left or p.right):
-                chi = p
+            if not (par.left or par.right):
+                chi = par
                 chi.bf = 0
                 continue
 
-            if p.left is chi:
-                if p.bf < 0:
-                    chi = p
+            if par.left is chi:
+                if par.bf < 0:
+                    chi = par
                     chi.bf = 0
                     continue
 
-                if p.bf == 0:
-                    p.bf = 1
+                if par.bf == 0:
+                    par.bf = 1
                     break
 
-                bf = p.right.bf
+                bf = par.right.bf
 
                 if bf < 0:
-                    n = AVLNode.rotate_right_left(p)
+                    new_par = AVLNode.rotate_right_left(par)
                 else:
-                    n = AVLNode.rotate_left(p)
+                    new_par = AVLNode.rotate_left(par)
             else:
-                if p.bf > 0:
-                    chi = p
+                if par.bf > 0:
+                    chi = par
                     chi.bf = 0
                     continue
 
-                if p.bf == 0:
-                    p.bf = -1
+                if par.bf == 0:
+                    par.bf = -1
                     break
 
-                bf = p.left.bf
+                bf = par.left.bf
 
                 if bf > 0:
-                    n = AVLNode.rotate_left_right(p)
+                    new_par = AVLNode.rotate_left_right(par)
                 else:
-                    n = AVLNode.rotate_right(p)
+                    new_par = AVLNode.rotate_right(par)
 
-            chi = n
+            chi = new_par
 
             if path:
-                pp = path[-1]
-
-                if pp.left is p:
-                    pp.left = n
+                if path[-1].left is par:
+                    path[-1].left = new_par
                 else:
-                    pp.right = n
+                    path[-1].right = new_par
             else:
-                self.root = n
+                self.root = new_par
 
             if bf == 0:
                 break

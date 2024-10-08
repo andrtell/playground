@@ -12,8 +12,8 @@ def bstree(iter):
 class BSTree(Tree):
     def insert(self, value):
         if self.root:
-            inserted, _ = BSOp.insert(self.root, Node(value))
-            if inserted:
+            did_insert, _ = BSOp.insert(self.root, Node(value))
+            if did_insert:
                 self.size += 1
         else:
             self.root = Node(value)
@@ -21,34 +21,34 @@ class BSTree(Tree):
 
     def delete(self, value):
         if self.root:
-            deleted, path, new_child = BSOp.delete(self.root, value)
-            if deleted:
+            did_delete, path, new_chi = BSOp.delete(self.root, value)
+            if did_delete:
                 self.size -= 1
                 if path:
                     self.root = path[0]
                 else:
-                    self.root = new_child
+                    self.root = new_chi
 
 
 class BSOp:
     @classmethod
-    def insert(cls, root, node):
+    def insert(cls, root, new_chi):
         if not root:
             raise Exception("Can't call insert if root is None.")
 
-        found, path = Path.find(root, node.value)
+        found, path = Path.find(root, new_chi.value)
 
         if found:
             return False, path
 
-        parent = path[-1]
+        par = path[-1]
 
-        if node.value < parent.value:
-            parent.left = node
+        if new_chi.value < par.value:
+            par.left = new_chi
         else:
-            parent.right = node
+            par.right = new_chi
 
-        path.append(node)
+        path.append(new_chi)
 
         return True, path
 
@@ -71,14 +71,12 @@ class BSOp:
 
         path.pop()
 
-        new_child = remo.left or remo.right
+        new_chi = remo.left or remo.right
 
         if path:
-            parent = path[-1]
-
-            if parent.left is remo:
-                parent.left = new_child
+            if path[-1].left is remo:
+                path[-1].left = new_chi
             else:
-                parent.right = new_child
+                path[-1].right = new_chi
 
-        return True, path, new_child
+        return True, path, new_chi
