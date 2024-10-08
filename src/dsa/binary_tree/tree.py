@@ -5,10 +5,10 @@ from dsa.binary_tree.format import Format
 
 
 class Node:
-    def __init__(self, value):
+    def __init__(self, value, left=None, right=None):
         self.value = value
-        self.left: Optional[Node] = None
-        self.right: Optional[Node] = None
+        self.left: Optional[Node] = left
+        self.right: Optional[Node] = right
 
     def __repr__(self):
         return f"Node({self.value})"
@@ -19,7 +19,7 @@ class Node:
 
 class Tree:
     def __init__(self, root=None):
-        self.root = root
+        self.root: Optional[Node] = root
         self.size = 0
 
     def insert(self, value):
