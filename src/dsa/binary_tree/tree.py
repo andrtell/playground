@@ -54,7 +54,7 @@ class Tree:
         return self.size > 0
 
     def __iter__(self):
-        return (node.value for node, _ in Iter.in_order(self.root))
+        return (path[-1].value for path in Iter.in_order(self.root))
 
     def __repr__(self):
         if self.root:

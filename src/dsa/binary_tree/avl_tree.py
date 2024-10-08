@@ -95,22 +95,22 @@ class AVLTree(Tree):
 
         self.size += 1
 
-        c = path.pop()
+        chi = path.pop()
 
         while path:
             p = path.pop()
 
-            if p.right is c:
+            if p.right is chi:
                 if p.bf < 0:
                     p.bf = 0
                     break
 
                 if p.bf == 0:
                     p.bf = 1
-                    c = p
+                    chi = p
                     continue
 
-                if c.bf < 0:
+                if chi.bf < 0:
                     n = AVLNode.rotate_right_left(p)
                 else:
                     n = AVLNode.rotate_left(p)
@@ -121,10 +121,10 @@ class AVLTree(Tree):
 
                 if p.bf == 0:
                     p.bf = -1
-                    c = p
+                    chi = p
                     continue
 
-                if c.bf > 0:
+                if chi.bf > 0:
                     n = AVLNode.rotate_left_right(p)
                 else:
                     n = AVLNode.rotate_right(p)
@@ -156,20 +156,20 @@ class AVLTree(Tree):
             self.root = new_child
             return
 
-        c = new_child
+        chi = new_child
 
         while path:
             p = path.pop()
 
             if not (p.left or p.right):
-                c = p
-                c.bf = 0
+                chi = p
+                chi.bf = 0
                 continue
 
-            if p.left is c:
+            if p.left is chi:
                 if p.bf < 0:
-                    c = p
-                    c.bf = 0
+                    chi = p
+                    chi.bf = 0
                     continue
 
                 if p.bf == 0:
@@ -184,8 +184,8 @@ class AVLTree(Tree):
                     n = AVLNode.rotate_left(p)
             else:
                 if p.bf > 0:
-                    c = p
-                    c.bf = 0
+                    chi = p
+                    chi.bf = 0
                     continue
 
                 if p.bf == 0:
@@ -199,7 +199,7 @@ class AVLTree(Tree):
                 else:
                     n = AVLNode.rotate_right(p)
 
-            c = n
+            chi = n
 
             if path:
                 pp = path[-1]
